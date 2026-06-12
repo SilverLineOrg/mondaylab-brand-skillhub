@@ -11,8 +11,10 @@ from pathlib import Path
 
 BLUE = "#1028ff"
 TEXT = "#111111"
-MUTED = "#666666"
-BORDER = "#e8e8e8"
+BODY_TEXT = "#4a4a4a"
+MUTED = "#888888"
+BORDER = "rgba(204, 204, 204, 0.45)"
+FONT_STACK = "Optima, 'Microsoft YaHei', PingFangSC-Regular, 'PingFang SC', serif"
 
 
 def esc(text: str) -> str:
@@ -22,7 +24,7 @@ def esc(text: str) -> str:
 def inline(text: str) -> str:
     text = esc(text)
     text = re.sub(r"`([^`]+)`", r'<code style="background:#f3f4f6;border-radius:4px;padding:2px 5px;font-size:0.92em;color:#111;">\1</code>', text)
-    text = re.sub(r"\*\*([^*]+)\*\*", r'<strong style="font-weight:700;">\1</strong>', text)
+    text = re.sub(r"\*\*([^*]+)\*\*", r'<strong style="color:#000;font-weight:bold;">\1</strong>', text)
     text = re.sub(r"==(.+?)==", rf'<span style="display:inline-block;background:{BLUE};color:#fff;border-radius:999px;padding:0 8px;line-height:1.08;">\1</span>', text)
     text = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2" style="color:#1a56db;text-decoration:none;">\1</a>', text)
     return text
@@ -41,7 +43,7 @@ def split_section_title(text: str) -> tuple[str | None, str]:
 def render_h1(text: str) -> str:
     return (
         '<h1 style="font-size:22px;line-height:1.45;font-weight:800;'
-        'letter-spacing:0;margin:0 0 28px;color:#111;text-align:left;">'
+        'letter-spacing:0;margin:0 0 30px;color:#111;text-align:left;">'
         f"{inline(text)}</h1>"
     )
 
@@ -50,12 +52,12 @@ def render_h2(text: str) -> str:
     number, title = split_section_title(text)
     index = f"({number})" if number else ""
     return f"""
-<section style="margin:72px 0 34px;">
-  <div style="display:flex;align-items:flex-start;gap:18px;margin-bottom:10px;">
-    <div style="font-size:66px;line-height:0.95;font-weight:500;color:{BLUE};font-family:Arial, Helvetica, sans-serif;white-space:nowrap;">{esc(index)}</div>
-    <div style="padding-top:6px;">
-      <div style="font-size:34px;line-height:1.12;font-weight:900;color:{TEXT};letter-spacing:0;">{inline(title)}</div>
-      <div style="font-size:18px;line-height:1.4;font-weight:800;color:{TEXT};margin-top:14px;">信息美学家Weekly &gt;&gt;&gt;</div>
+<section style="margin:82px 0 38px;padding:0;">
+  <div style="display:flex;align-items:flex-start;gap:18px;margin:0;">
+    <div style="font-size:68px;line-height:0.95;font-weight:500;color:{BLUE};font-family:Arial, Helvetica, sans-serif;white-space:nowrap;">{esc(index)}</div>
+    <div style="padding-top:5px;">
+      <div style="font-size:34px;line-height:1.14;font-weight:900;color:{TEXT};letter-spacing:0;">{inline(title)}</div>
+      <div style="font-size:19px;line-height:1.4;font-weight:800;color:{TEXT};margin-top:14px;letter-spacing:0;">信息美学家Weekly &gt;&gt;&gt;</div>
     </div>
   </div>
 </section>""".strip()
@@ -63,7 +65,7 @@ def render_h2(text: str) -> str:
 
 def render_h3(text: str) -> str:
     return (
-        '<div style="text-align:center;margin:42px 0 22px;">'
+        '<div style="text-align:center;margin:46px 0 18px;">'
         '<span style="display:inline-block;background:#050505;color:#fff;'
         'font-size:15px;line-height:1.35;font-weight:800;padding:6px 14px;'
         'border-radius:0;">'
@@ -73,8 +75,8 @@ def render_h3(text: str) -> str:
 
 def render_h4(text: str) -> str:
     return (
-        '<p style="font-size:15px;line-height:1.85;font-weight:800;'
-        'margin:26px 0 10px;color:#111;text-align:left;">'
+        '<p style="font-size:16px;line-height:1.8em;font-weight:bold;'
+        'margin:0;padding:24px 0 8px;color:#000;text-align:left;letter-spacing:0.02em;">'
         f"{inline(text)}</p>"
     )
 
@@ -85,22 +87,30 @@ def render_paragraph(lines: list[str]) -> str:
         return ""
     if re.fullmatch(r"【📷截图：.+?】", text):
         return (
-            '<div style="margin:22px 0;padding:14px 16px;background:#f7f7f7;'
-            f'border:1px dashed #cfcfcf;color:{MUTED};font-size:14px;line-height:1.7;">'
+            '<div style="margin:14px 0 10px;padding:14px 16px;background:#f7f7f7;'
+            f'border:1px dashed #cfcfcf;color:{MUTED};font-size:14px;line-height:1.7;border-radius:4px;">'
             f"{esc(text)}</div>"
         )
     image = re.match(r"^!\[([^\]]*)\]\(([^)]+)\)$", text)
     if image:
         alt, src = image.group(1), image.group(2)
+        caption = (
+            f'<figcaption style="color:{MUTED};font-size:14px;line-height:1.5em;'
+            f'letter-spacing:0;text-align:center;font-weight:normal;margin:7px 0 0;padding:0;">{esc(alt)}</figcaption>'
+            if alt else ""
+        )
         return (
-            '<figure style="margin:24px 0;text-align:center;">'
-            f'<img src="{esc(src)}" alt="{esc(alt)}" style="display:block;width:100%;max-width:100%;height:auto;border-radius:0;margin:0 auto;" />'
-            f'<figcaption style="font-size:12px;line-height:1.6;color:#999;margin-top:8px;">{esc(alt)}</figcaption>'
+            '<figure style="margin:16px 0 14px;padding:0;display:flex;'
+            'flex-direction:column;justify-content:center;align-items:center;text-align:center;">'
+            f'<img src="{esc(src)}" alt="{esc(alt)}" style="display:block;margin:0 auto;'
+            'width:100%;max-width:100%;height:auto;border:none;border-radius:4px;object-fit:fill;'
+            'box-shadow:0 10px 28px rgba(15,23,42,0.14),0 2px 8px rgba(15,23,42,0.08);" />'
+            f"{caption}"
             '</figure>'
         )
     return (
-        '<p style="font-size:15px;line-height:1.95;color:#222;margin:16px 0;'
-        'letter-spacing:0;text-align:left;">'
+        f'<p style="color:{BODY_TEXT};font-size:16px;line-height:1.8em;letter-spacing:0.02em;'
+        'text-align:left;text-indent:0;margin:0;padding:20px 0 8px;">'
         f"{inline(text)}</p>"
     )
 
@@ -109,10 +119,10 @@ def render_list(items: list[str], ordered: bool = False) -> str:
     tag = "ol" if ordered else "ul"
     body = []
     for item in items:
-        body.append(f'<li style="margin:6px 0;line-height:1.85;">{inline(item)}</li>')
+        body.append(f'<li style="margin:5px 0;color:#010101;font-size:16px;line-height:1.8em;letter-spacing:0;text-align:left;font-weight:normal;">{inline(item)}</li>')
     return (
-        f'<{tag} style="font-size:15px;line-height:1.85;color:#222;'
-        'padding-left:1.3em;margin:14px 0;">'
+        f'<{tag} style="list-style-type:{"decimal" if ordered else "disc"};'
+        'margin:8px 0;padding:0 0 0 25px;color:#000;">'
         + "\n".join(body)
         + f"</{tag}>"
     )
@@ -129,30 +139,31 @@ def render_table(lines: list[str]) -> str:
     if not rows:
         return ""
     out = [
-        '<table style="border-collapse:collapse;width:100%;margin:22px 0;'
-        'font-size:14px;line-height:1.7;color:#222;">'
+        '<section style="margin:12px 0 10px;padding:0;overflow-x:auto;">'
+        '<table style="display:table;border-collapse:collapse;width:100%;'
+        'font-size:14px;line-height:1.5em;color:#000;text-align:left;">'
     ]
     for ridx, row in enumerate(rows):
         out.append("<tr>")
         for cell in row:
             tag = "th" if ridx == 0 else "td"
-            bg = "#f4f4f4" if ridx == 0 else "#ffffff"
-            weight = "700" if ridx == 0 else "400"
+            bg = "rgb(240,240,240)" if ridx == 0 else ("rgb(248,248,248)" if ridx % 2 == 0 else "#ffffff")
+            weight = "bold" if ridx == 0 else "normal"
             out.append(
                 f'<{tag} style="border:1px solid {BORDER};background:{bg};'
-                f'font-weight:{weight};padding:8px 10px;text-align:left;vertical-align:top;">'
+                f'font-weight:{weight};padding:6px 10px;text-align:left;vertical-align:top;min-width:85px;">'
                 f"{inline(cell)}</{tag}>"
             )
         out.append("</tr>")
-    out.append("</table>")
+    out.append("</table></section>")
     return "\n".join(out)
 
 
 def render_blockquote(lines: list[str]) -> str:
     body = "<br/>".join(inline(line.lstrip("> ").strip()) for line in lines)
     return (
-        '<blockquote style="margin:18px 0;padding:12px 16px;border-left:4px solid '
-        f'{BLUE};background:#f7f8ff;color:#333;font-size:14px;line-height:1.85;">'
+        '<blockquote style="margin:18px 0 10px;padding:12px 16px;border-left:4px solid '
+        f'{BLUE};background:#f7f8ff;color:#333;font-size:15px;line-height:1.8em;letter-spacing:0.02em;">'
         f"{body}</blockquote>"
     )
 
@@ -244,11 +255,11 @@ def build_html(title: str, content: str) -> str:
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{esc(title)}</title>
 </head>
-<body style="margin:0;background:#ffffff;color:#111;font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',Arial,sans-serif;">
-  <main style="max-width:677px;margin:0 auto;padding:28px 24px 56px;box-sizing:border-box;">
+<body style="margin:0;background:#ffffff;color:#111;font-family:{FONT_STACK};">
+  <section id="nice" data-tool="mondaylab-information-aesthetic-wechat-layout" style="max-width:677px;margin:0 auto;padding:28px 24px 56px;background:rgba(0,0,0,0);width:auto;font-family:{FONT_STACK};font-size:16px;color:#000;line-height:1.5em;word-spacing:0;letter-spacing:0;word-break:break-word;overflow-wrap:break-word;text-align:left;box-sizing:border-box;">
     {render_h1(title)}
     {content}
-  </main>
+  </section>
 </body>
 </html>
 """
