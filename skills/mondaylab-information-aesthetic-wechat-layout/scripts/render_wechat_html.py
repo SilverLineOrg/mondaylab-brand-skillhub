@@ -15,6 +15,9 @@ BODY_TEXT = "#4a4a4a"
 MUTED = "#888888"
 BORDER = "rgba(204, 204, 204, 0.45)"
 FONT_STACK = "Optima, 'Microsoft YaHei', PingFangSC-Regular, 'PingFang SC', serif"
+H2_TITLE_FONT_SIZE = 32
+H2_TITLE_LINE_HEIGHT = 1.28
+H2_INDEX_LINE_HEIGHT = 1.2
 
 
 def esc(text: str) -> str:
@@ -88,7 +91,7 @@ def h2_highlight(text: str) -> str:
             continue
         chars.append(
             f'<span style="display:inline-flex;align-items:center;justify-content:center;'
-            f'width:1.18em;height:1.18em;margin:0 0.035em;border-radius:999px;'
+            f'min-width:1.18em;min-height:1.18em;padding:4px;margin:0 0.035em;border-radius:999px;box-sizing:border-box;'
             f'background:{BLUE};color:#fff;line-height:1;font-size:0.86em;font-weight:900;">{esc(char)}</span>'
         )
     return (
@@ -130,6 +133,12 @@ def render_h1(text: str) -> str:
 
 def render_h2(text: str) -> str:
     number, title = split_section_title(text)
+    title_parts = split_h2_title(title)
+    index_font_size = round(
+        H2_TITLE_FONT_SIZE * H2_TITLE_LINE_HEIGHT * len(title_parts) / H2_INDEX_LINE_HEIGHT,
+        2,
+    )
+    index_letter_spacing = round(-8 * len(title_parts), 2)
     index = (
         f'<span style="font-family:\'Source Han Sans SC\',\'Noto Sans CJK SC\',\'思源黑体\',sans-serif;font-weight:200;">(</span>'
         f'<span style="font-family:\'Roboto Slab\',Rockwell,Georgia,\'Times New Roman\',serif;font-weight:400;">{esc(number)}</span>'
@@ -139,14 +148,14 @@ def render_h2(text: str) -> str:
     )
     title_lines = "".join(
         f'<span style="display:block;">{h2_inline(line)}</span>'
-        for line in split_h2_title(title)
+        for line in title_parts
     )
     return f"""
 <section style="margin:0;padding:60px 0;">
   <div style="display:flex;align-items:flex-start;gap:24px;margin:0;">
-    <div style="font-size:64px;line-height:1.2;color:{BLUE};letter-spacing:-8px;white-space:nowrap;">{index}</div>
+    <div style="font-size:{index_font_size}px;line-height:{H2_INDEX_LINE_HEIGHT};color:{BLUE};letter-spacing:{index_letter_spacing}px;white-space:nowrap;">{index}</div>
     <div style="padding-top:5px;">
-      <div style="font-size:32px;line-height:1.28;font-family:'Source Han Sans SC','Noto Sans CJK SC','思源黑体',sans-serif;font-weight:700;color:{TEXT};letter-spacing:1px;">{title_lines}</div>
+      <div style="font-size:{H2_TITLE_FONT_SIZE}px;line-height:{H2_TITLE_LINE_HEIGHT};font-family:'Source Han Sans SC','Noto Sans CJK SC','思源黑体',sans-serif;font-weight:700;color:{TEXT};letter-spacing:1px;">{title_lines}</div>
       <div style="font-size:18px;line-height:1.4;font-weight:800;color:{TEXT};margin-top:16px;letter-spacing:0;">信息美学家Weekly &gt;&gt;&gt;</div>
     </div>
   </div>
