@@ -13,6 +13,7 @@
 - `mondaylab-professional-article-style`：用于统一星期一研究室场景测评、产品测试、专业公众号文章的语言风格、内容组织和写法禁区。
 - `mondaylab-ai-product-reviewer`：用于撰写、改写和评审 AI 产品测评、场景测评、横向对比、工具测试类文章。
 - `mondaylab-information-aesthetic-column`：用于撰写、改写和评审「信息美学家」专栏文章，把零散信息整理成好看、好找、好用、可复用的可视化产物。
+- `mondaylab-information-aesthetic-wechat-layout`：用于把「信息美学家」飞书文档或 Markdown 草稿转换成公众号 HTML 排版稿。
 
 ## 写文章时怎么引用
 
@@ -90,6 +91,18 @@ mondaylab-information-aesthetic-column
 
 ```text
 请使用 mondaylab-information-aesthetic-column，帮我把这个场景改成「信息美学家」专栏文章，要求有具体问题、最终产物、字段/视图设计、截图建议和轻量 CTA。
+```
+
+如果文章已经写好，需要生成「信息美学家」公众号 HTML 排版稿，可以引用：
+
+```text
+mondaylab-information-aesthetic-wechat-layout
+```
+
+常用排版提示词：
+
+```text
+请使用 mondaylab-information-aesthetic-wechat-layout，把这篇飞书文档转换成公众号 HTML，二级标题用大蓝色编号样式，三级标题用黑底白字步骤条样式。
 ```
 
 ## 使用规则
