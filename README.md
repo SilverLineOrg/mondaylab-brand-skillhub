@@ -1,25 +1,53 @@
-# MondayLab Brand Skillhub
+# 星期一研究室品牌 SkillHub
 
-This repository stores reusable Codex skills for 星期一研究室 / MondayLab brand work.
+这个仓库用于沉淀星期一研究室 / MondayLab 的品牌导向 Skill。
 
-The skillhub is intended to turn brand strategy, commercialization thinking, content direction, and enterprise training assets into reusable AI-agent instructions.
+它的目标是把品牌战略、商业化思考、内容方向、企业培训产品等资产，转化成可复用的 AI Agent 指令资产。后续写文章、做选题、设计产品、打磨企业方案时，都可以用这些 Skill 来校准方向。
 
-## Skills
+## 已有 Skill
 
-- `mondaylab-brand-strategy`: brand positioning, monetization boundaries, product strategy, and platform strategy.
-- `mondaylab-content-direction`: public-channel topic planning, article correction, CTA design, and content asset transformation.
-- `mondaylab-enterprise-training`: B-end training, workshops, diagnosis, and enterprise offer design.
+- `mondaylab-brand-strategy`：用于校准品牌定位、商业化边界、产品结构、平台策略。
+- `mondaylab-content-direction`：用于公众号、小红书、X 等公域内容的选题规划、文章纠偏、CTA 设计、内容资产沉淀。
+- `mondaylab-enterprise-training`：用于 B 端企业培训、工作坊、诊断咨询、企业产品设计。
 
-## Operating Principles
+## 写文章时怎么引用
 
-- Keep `SKILL.md` concise.
-- Store long strategy documents in `references/`.
-- Use skills to correct future articles, topics, course materials, enterprise proposals, and platform cooperation ideas.
-- Add new brand-related skills here instead of scattering them across local folders.
+如果是日常文章选题、公众号 / 小红书 / X 文案、文章结构纠偏，主要引用：
 
-## Source Strategy Documents
+```text
+mondaylab-content-direction
+```
 
-The first three skills were distilled from:
+它负责判断一篇内容是否符合星期一研究室接下来的内容打法：AI Native、信息美学、最终产物、场景工作流、课程转化、平台无关能力。
+
+如果文章涉及更底层的品牌定位、商业化边界、飞书是不是主线、C 端 / B 端产品结构，需要同时引用：
+
+```text
+mondaylab-brand-strategy
+```
+
+如果文章是企业培训、B 端案例、企业工作流、管理中枢相关内容，需要再加：
+
+```text
+mondaylab-enterprise-training
+```
+
+最常用的文章纠偏提示词：
+
+```text
+请基于 mondaylab-content-direction 和 mondaylab-brand-strategy，帮我判断这篇文章是否符合星期一研究室的内容方向，并给出改写建议。
+```
+
+## 使用规则
+
+- `SKILL.md` 保持简洁，写清楚触发场景、判断标准和输出要求。
+- 长篇战略文档放在 `references/` 里，不要全部塞进 `SKILL.md`。
+- 后续文章、选题、课程材料、企业方案、平台合作思路，都优先用这里的 Skill 做方向校准。
+- 新增品牌相关 Skill 时，统一放进这个仓库，不要散落在本地其他目录。
+
+## 来源文档
+
+第一批 Skill 来自以下 3 份战略文档：
 
 - `星期一研究室商业化思考.md`
 - `星期一研究室文章商业化优化分析.md`
