@@ -7,7 +7,7 @@ description: 当需要撰写、改写、评审或优化星期一研究室 / Mond
 
 使用这个 Skill，把「信息美学家」专栏写成一个个轻量但完整的信息整理案例。
 
-这个 Skill 负责栏目定位、结构和表达边界。通用语气可配合 `mondaylab-professional-article-style`，标题层级可配合 `article-heading-structure`，品牌方向可配合 `mondaylab-content-direction`。
+这个 Skill 负责栏目定位、结构、标题层级和表达边界。通用语气可配合 `mondaylab-professional-article-style`，品牌方向可配合 `mondaylab-content-direction`。
 
 ## 栏目定位
 
@@ -69,7 +69,7 @@ description: 当需要撰写、改写、评审或优化星期一研究室 / Mond
 5. 适用场景：说明哪些人、哪些团队、哪些内容场景可以复用；必要时再用表格。
 6. 结尾：回到“可找、可看、可复用”，再轻量引导课程或案例库。
 
-常用标题层级：
+标题层级直接采用第 012 期这种轻量结构，不需要再配合 `article-heading-structure`。默认用法：
 
 - `## （1）{问题或场景}`
 - `## （2）{这次做什么}`
@@ -78,6 +78,8 @@ description: 当需要撰写、改写、评审或优化星期一研究室 / Mond
 - `#### 第二步：{动作}`
 - `## （4）{适合谁}`
 - `## （5）结语：{回到价值}`
+
+不要使用专业测评文章里的 `# 一、{emoji}{标题}`、`## 1、{标题}` 那套层级。信息美学家更像轻量周刊栏目，标题要短、松弛、顺着读者的问题往下走。
 
 ## 内容写法
 
