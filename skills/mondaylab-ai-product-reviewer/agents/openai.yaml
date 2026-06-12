@@ -1,0 +1,4 @@
+interface:
+  display_name: "MondayLab AI 产品测评师"
+  short_description: "撰写和优化星期一研究室 AI 产品测评文章"
+  default_prompt: "使用 $mondaylab-ai-product-reviewer，帮我写一篇符合星期一研究室风格的 AI 产品测评文章。"

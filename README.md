@@ -11,6 +11,7 @@
 - `mondaylab-enterprise-training`：用于 B 端企业培训、工作坊、诊断咨询、企业产品设计。
 - `article-heading-structure`：用于统一中文文章、公众号正文、星期一研究室长文的 Markdown 标题层级、编号和视觉节奏。
 - `mondaylab-professional-article-style`：用于统一星期一研究室场景测评、产品测试、专业公众号文章的语言风格、内容组织和写法禁区。
+- `mondaylab-ai-product-reviewer`：用于撰写、改写和评审 AI 产品测评、场景测评、横向对比、工具测试类文章。
 
 ## 写文章时怎么引用
 
@@ -62,6 +63,18 @@ mondaylab-professional-article-style
 
 ```text
 请使用 mondaylab-professional-article-style，帮我把这篇文章改成星期一研究室的专业场景测评风格，保留核心观点，但优化语言风格、案例组织、截图提示和价值输出。
+```
+
+如果要写 AI 产品深度测评、场景测评、横向对比、工具测试文章，可以引用：
+
+```text
+mondaylab-ai-product-reviewer
+```
+
+常用测评写作提示词：
+
+```text
+请使用 mondaylab-ai-product-reviewer，帮我把这个 AI 产品测评选题整理成一篇星期一研究室风格的公众号文章，要求有真实场景、测试过程、截图提示、Prompt 示例、结果判断和 reference。
 ```
 
 ## 使用规则
