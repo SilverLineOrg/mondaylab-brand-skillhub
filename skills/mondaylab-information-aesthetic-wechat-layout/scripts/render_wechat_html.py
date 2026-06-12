@@ -132,7 +132,7 @@ def render_h2(text: str) -> str:
     number, title = split_section_title(text)
     index = (
         f'<span style="font-family:\'Source Han Sans SC\',\'Noto Sans CJK SC\',\'思源黑体\',sans-serif;font-weight:200;">(</span>'
-        f'<span style="font-family:\'Source Han Sans SC\',\'Noto Sans CJK SC\',\'思源黑体\',sans-serif;font-weight:400;">{esc(number)}</span>'
+        f'<span style="font-family:\'Roboto Slab\',Rockwell,Georgia,\'Times New Roman\',serif;font-weight:700;">{esc(number)}</span>'
         f'<span style="font-family:\'Source Han Sans SC\',\'Noto Sans CJK SC\',\'思源黑体\',sans-serif;font-weight:200;">)</span>'
         if number
         else ""
