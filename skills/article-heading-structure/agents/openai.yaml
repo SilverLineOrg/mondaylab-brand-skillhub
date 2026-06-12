@@ -1,0 +1,4 @@
+interface:
+  display_name: "Article Heading Structure"
+  short_description: "统一中文文章与公众号正文的 Markdown 标题层级规范"
+  default_prompt: "Use $article-heading-structure to normalize this article's Markdown heading hierarchy."

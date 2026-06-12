@@ -9,6 +9,7 @@
 - `mondaylab-brand-strategy`：用于校准品牌定位、商业化边界、产品结构、平台策略。
 - `mondaylab-content-direction`：用于公众号、小红书、X 等公域内容的选题规划、文章纠偏、CTA 设计、内容资产沉淀。
 - `mondaylab-enterprise-training`：用于 B 端企业培训、工作坊、诊断咨询、企业产品设计。
+- `article-heading-structure`：用于统一中文文章、公众号正文、星期一研究室长文的 Markdown 标题层级、编号和视觉节奏。
 
 ## 写文章时怎么引用
 
@@ -36,6 +37,18 @@ mondaylab-enterprise-training
 
 ```text
 请基于 mondaylab-content-direction 和 mondaylab-brand-strategy，帮我判断这篇文章是否符合星期一研究室的内容方向，并给出改写建议。
+```
+
+如果已经确定文章方向，只需要整理标题层级、编号和阅读节奏，可以引用：
+
+```text
+article-heading-structure
+```
+
+常用标题整理提示词：
+
+```text
+请使用 article-heading-structure，按长篇类型整理这篇文章的标题层级，只调整标题结构和编号，不重写正文。
 ```
 
 ## 使用规则
