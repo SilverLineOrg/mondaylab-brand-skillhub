@@ -130,7 +130,13 @@ def render_h1(text: str) -> str:
 
 def render_h2(text: str) -> str:
     number, title = split_section_title(text)
-    index = f"({number})" if number else ""
+    index = (
+        f'<span style="font-family:\'Source Han Sans SC\',\'Noto Sans CJK SC\',\'思源黑体\',sans-serif;font-weight:200;">(</span>'
+        f'<span style="font-family:\'Source Han Sans SC\',\'Noto Sans CJK SC\',\'思源黑体\',sans-serif;font-weight:400;">{esc(number)}</span>'
+        f'<span style="font-family:\'Source Han Sans SC\',\'Noto Sans CJK SC\',\'思源黑体\',sans-serif;font-weight:200;">)</span>'
+        if number
+        else ""
+    )
     title_lines = "".join(
         f'<span style="display:block;">{h2_inline(line)}</span>'
         for line in split_h2_title(title)
@@ -138,7 +144,7 @@ def render_h2(text: str) -> str:
     return f"""
 <section style="margin:82px 0 38px;padding:0;">
   <div style="display:flex;align-items:flex-start;gap:20px;margin:0;">
-    <div style="font-size:64px;line-height:1.2;font-weight:500;color:{BLUE};font-family:Arial, Helvetica, sans-serif;letter-spacing:-16px;white-space:nowrap;">{esc(index)}</div>
+    <div style="font-size:64px;line-height:1.2;color:{BLUE};letter-spacing:-16px;white-space:nowrap;">{index}</div>
     <div style="padding-top:5px;">
       <div style="font-size:32px;line-height:1.28;font-weight:900;color:{TEXT};letter-spacing:0;">{title_lines}</div>
       <div style="font-size:18px;line-height:1.4;font-weight:800;color:{TEXT};margin-top:16px;letter-spacing:0;">信息美学家Weekly &gt;&gt;&gt;</div>
