@@ -142,7 +142,7 @@ def render_h2(text: str) -> str:
         for line in split_h2_title(title)
     )
     return f"""
-<section style="margin:82px 0 38px;padding:0;">
+<section style="height:500px;margin:0;padding:0;display:flex;align-items:center;">
   <div style="display:flex;align-items:flex-start;gap:24px;margin:0;">
     <div style="font-size:64px;line-height:1.2;color:{BLUE};letter-spacing:-8px;white-space:nowrap;">{index}</div>
     <div style="padding-top:5px;">
