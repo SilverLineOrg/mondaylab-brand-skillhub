@@ -1,64 +1,64 @@
 ---
 name: mondaylab-enterprise-training
-description: Use when designing 星期一研究室 / MondayLab enterprise training, B2B workshops, AI workflow diagnosis, Feishu or cross-platform management hub offers, knowledge management training, project execution training, information aesthetics training, or enterprise human-Agent collaboration services.
+description: 当需要设计星期一研究室 / MondayLab 的企业培训、B 端工作坊、AI 工作流诊断、飞书或跨平台管理中枢方案、知识管理培训、项目执行培训、信息美学培训、企业人机协同服务时使用。
 ---
 
-# MondayLab Enterprise Training
+# 星期一研究室企业培训
 
-Use this skill to shape B-end training and consulting into productized offers.
+使用这个 Skill，把 B 端培训和咨询设计成可产品化的服务。
 
-## Required References
+## 必读参考
 
-Read references as needed:
+按需阅读以下参考：
 
-- `references/enterprise-training-products.md` for training products, versions, deliverables, and conversion paths.
-- `references/commercial-strategy.md` for overall brand, B-end boundaries, and platform strategy.
+- `references/enterprise-training-products.md`：培训产品、版本、交付物、转化路径。
+- `references/commercial-strategy.md`：整体品牌、B 端边界、平台策略。
 
-## Core Positioning
+## 核心定位
 
-Do not sell generic AI tools training or Feishu button training.
+不要卖泛泛的 AI 工具培训，也不要卖飞书按钮培训。
 
-Sell:
+要卖的是：
 
-> Helping enterprises understand where AI enters business processes, how people and Agents collaborate, how systems carry the result, and how final deliverables become runnable, understandable, reusable, and shareable.
+> 帮企业理解 AI 应该进入哪些业务流程，人和 Agent 如何协同，系统如何承接结果，最终产物如何变得可运行、可理解、可复用、可传播。
 
-## Priority Training Products
+## 优先培训产品
 
-Prioritize:
+优先打磨：
 
 1. `企业 AI 工作流设计：从工具使用到业务落地`
 2. `AI + 飞书：打造企业管理中枢`
 3. `AI 时代的企业知识库与项目管理`
 
-Secondary products:
+次级产品：
 
 - 企业飞书协同中枢训练
 - 用 AI + 协同工具提升项目管理与执行力
 - 信息美学：让企业知识、报告和流程更好懂
 
-## Delivery Versions
+## 交付版本
 
-For each enterprise topic, choose one version:
+每个企业主题可以拆成 3 种版本：
 
-- 2-hour talk: awareness, cases, sales entry.
-- Half-day workshop: scenario diagnosis and co-creation.
-- 1-2 day internal training: methodology, templates, exercises, and implementation plan.
+- 2 小时分享：建立认知、展示案例、作为销售入口。
+- 半天工作坊：做场景诊断和共创。
+- 1-2 天内训：讲方法论、给模板、做练习、形成落地计划。
 
-## B-End Conversion Path
+## B 端转化路径
 
-Use this path:
+使用这条路径：
 
-> awareness training -> scenario diagnosis -> workshop co-creation -> system implementation -> annual advisory
+> 认知培训 -> 场景诊断 -> 工作坊共创 -> 系统搭建 -> 年度顾问
 
-## Design Rules
+## 设计规则
 
-When designing an enterprise offer, specify:
+设计企业服务时，必须说明：
 
-1. target audience
-2. business pain
-3. AI / Agent / human / platform division of labor
-4. final deliverables
-5. training version
-6. follow-up conversion path
+1. 目标对象
+2. 业务痛点
+3. AI / Agent / 人 / 平台如何分工
+4. 最终交付物
+5. 培训版本
+6. 后续转化路径
 
-Prefer cross-platform language unless the customer is explicitly using Feishu.
+除非客户明确使用飞书，否则优先使用跨平台语言。

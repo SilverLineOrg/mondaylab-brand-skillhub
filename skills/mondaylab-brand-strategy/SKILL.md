@@ -1,58 +1,58 @@
 ---
 name: mondaylab-brand-strategy
-description: Use when working on 星期一研究室 / MondayLab brand positioning, commercialization, monetization boundaries, platform strategy, product strategy, AI workflow positioning, cross-platform visual deliverables, or deciding whether a new idea matches the MondayLab brand direction.
+description: 当需要判断星期一研究室 / MondayLab 的品牌定位、商业化边界、平台策略、产品策略、AI 工作流定位、跨平台可视化产物，或判断一个新想法是否符合品牌方向时使用。
 ---
 
-# MondayLab Brand Strategy
+# 星期一研究室品牌策略
 
-Use this skill to keep MondayLab decisions aligned with the current brand and commercialization strategy.
+使用这个 Skill，让星期一研究室的品牌、商业化和产品判断保持一致。
 
-## Required Reference
+## 必读参考
 
-Read `references/commercial-strategy.md` before making recommendations about:
+涉及以下问题时，先阅读 `references/commercial-strategy.md`：
 
-- brand positioning
-- free vs paid boundaries
-- C-end / B-end products
-- platform strategy
-- AI product review strategy
-- Feishu / WPS / DingTalk / WeCom / YouMind / HTML positioning
-- final deliverable design
+- 品牌定位
+- 免费与付费边界
+- C 端 / B 端产品结构
+- 平台策略
+- AI 产品测评策略
+- 飞书 / WPS / 钉钉 / 企业微信 / YouMind / HTML 的定位
+- 最终产物设计
 
-## Core Positioning
+## 核心定位
 
-MondayLab is not an AI product review account and not a Feishu tutorial account.
+星期一研究室不是单纯的 AI 产品测评账号，也不是单纯的飞书教程账号。
 
-Use this positioning:
+当前定位是：
 
-> Help individuals and companies turn AI products, Agent capability, project management methods, information aesthetics, and tool platforms into executable, reusable, visual final deliverables.
+> 帮助个人和企业，把 AI 产品、Agent 能力、项目管理方法、信息美学和工具平台，转化为可执行、可沉淀、可复用、可视化的最终产物。
 
-The key formula is:
+核心公式是：
 
-> Agent + methodology + tool platform + information aesthetics = final deliverable that can run, be understood, be reused, and be shared.
+> Agent + 方法论 + 工具平台 + 信息美学 = 可运行、可理解、可复用、可传播的最终产物。
 
-Feishu is the current main battlefield, not the final boundary.
+飞书是当前主战场，但不是最终边界。
 
-## Commercial Boundaries
+## 商业化边界
 
-Keep these boundaries:
+保持以下边界：
 
-- Free: 信息美学家, AI 产品测评知识库, public-channel articles, open-source Skills / workflows.
-- C-end main product: only `《玩转飞书系统课程》`.
-- C-end consulting: optional only, `1500 元 / hour`, not a growth mainline.
-- B-end: training, diagnosis, management hub implementation, annual advisory.
-- Platform cooperation: long-term goal after media influence, cases, white papers, and user trust are strong enough.
+- 免费层：信息美学家、AI 产品测评知识库、公域文章、开源 Skill / 工作流。
+- C 端主产品：只保留 `《玩转飞书系统课程》`。
+- C 端咨询：可选承接，`1500 元 / 小时`，不作为增长主线。
+- B 端：培训、诊断、管理中枢搭建、年度顾问。
+- 平台合作：长期目标，需要在媒体影响力、案例、白皮书和用户信任足够强之后推进。
 
-## Decision Rules
+## 判断规则
 
-When evaluating a new idea, ask:
+评估一个新想法时，问 5 个问题：
 
-1. Does it move from tool usage to workflow / final deliverable?
-2. Does it reinforce AI-native, Agent, methodology, platform, and information aesthetics?
-3. Does it avoid becoming low-ticket beginner service work?
-4. Does it connect back to the free content assets, C-end course, B-end services, or platform cooperation?
-5. Can it work beyond Feishu if moved to WPS, DingTalk, WeCom, YouMind, HTML, or another platform?
+1. 它是否从“工具使用”走向“工作流 / 最终产物”？
+2. 它是否强化 AI Native、Agent、方法论、平台和信息美学？
+3. 它是否避免陷入低客单价的小白服务？
+4. 它是否能连接免费内容资产、C 端课程、B 端服务或平台合作？
+5. 如果离开飞书，迁移到 WPS、钉钉、企微、YouMind、HTML 或其他平台，它是否仍然成立？
 
-If an idea only teaches a button, tool, template, or small trick, reframe it around:
+如果一个想法只是在教按钮、工具、模板或小技巧，要重新追问：
 
-> What final deliverable does this create, and what workflow does it improve?
+> 这个动作最终创造了什么产物？它改善了哪条工作流？

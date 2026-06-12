@@ -1,93 +1,95 @@
 ---
 name: article-heading-structure
-description: Normalize and polish Chinese article or WeChat public-account Markdown heading hierarchy. Use when Codex is asked to 整理标题层级, 优化文章标题, 统一 Markdown 标题, format headings for 星期一研究室/MondayLab style, convert an article to long-form/short-form/only-second heading style, add coherent emoji to first-level headings, or make Chinese outline levels visually comfortable without rewriting the article.
+description: 当需要整理中文文章或公众号 Markdown 标题层级、优化标题、统一标题格式、整理星期一研究室 / MondayLab 风格标题、转换成长篇 / 短篇 / 纯二级标题结构、为一级标题添加统一语义 emoji、让中文大纲层级更舒服时使用。默认只调整标题结构，不重写正文。
 ---
 
-# Article Heading Structure
+# 中文文章标题层级整理
 
-## Core Rule
+使用这个 Skill，统一中文文章和公众号正文的 Markdown 标题层级、编号和视觉节奏。
 
-Before editing headings, ask the user which hierarchy type to use unless they already specified one:
+## 核心规则
 
-- Long-form: 1-4 levels
-- Short-form: 1-2 levels
-- Only Second: only `##` headings
+整理标题前，除非用户已经指定层级类型，否则先问用户使用哪一种：
 
-After the user chooses, apply the matching system strictly. Optimize heading levels, numbering, and visual rhythm. Preserve the article's meaning and body text unless the user asks for broader rewriting.
+- 长篇类型：1-4 级标题
+- 短篇类型：1-2 级标题
+- 纯二级类型：只使用 `##` 标题
 
-## Workflow
+用户选择后，严格按对应系统处理。只优化标题层级、编号和阅读节奏。除非用户要求重写正文，否则保留正文含义和正文内容。
 
-1. Inspect the article structure: identify preface/background, main chapters, modules, submodules, reference material, and ending notes.
-2. Select the hierarchy type from the user's choice. If no choice is present, ask one concise question and stop.
-3. Normalize Markdown heading syntax, Chinese numbering, spacing, and emoji according to the selected type.
-4. Keep heading levels logically nested. Do not skip levels in Long-form mode.
-5. Ensure the final outline is scannable: similar sections should have similar heading patterns, and headings at the same level should have similar granularity.
-6. Return the optimized article or, if the article is long and the user asked for review only, return a before/after heading outline plus concrete edits.
+## 工作流程
 
-## Long-Form Type
+1. 先检查文章结构：识别前言 / 背景、主章节、模块、子模块、参考材料、结尾。
+2. 根据用户选择确定层级类型。如果用户没有选择，只问一个简短问题后停止。
+3. 按所选类型统一 Markdown 标题语法、中文编号、空格和 emoji。
+4. 保证标题层级逻辑嵌套。长篇类型中不要跳级。
+5. 保证最终大纲便于扫描：同级标题颗粒度相近，相似模块使用相似标题模式。
+6. 返回优化后的文章；如果文章很长且用户只要求评审，可以返回修改前后大纲和具体修改建议。
 
-Use for long articles with chapters, modules, and detailed submodules.
+## 长篇类型
 
-| Level | Markdown | Numbering | Example | Usage |
+适用于有章节、模块、详细子模块的长文章。
+
+| 层级 | Markdown | 编号 | 示例 | 用途 |
 | --- | --- | --- | --- | --- |
-| First-level | `#` | `一、二、三` | `# 一、函数基础入门` | Chapter title |
-| Second-level | `##` | `1、2、3` | `## 1、常用函数介绍` | Major module |
-| Third-level | `###` | `(1) (2) (3)` | `### (1) 文本函数` | Submodule; use Chinese parentheses |
-| Fourth-level | `####` | `①②③` | `#### ① LEFT 函数` | Use sparingly for detailed points |
+| 一级标题 | `#` | `一、二、三` | `# 一、函数基础入门` | 章节标题 |
+| 二级标题 | `##` | `1、2、3` | `## 1、常用函数介绍` | 主要模块 |
+| 三级标题 | `###` | `(1) (2) (3)` | `### (1) 文本函数` | 子模块，使用中文括号 |
+| 四级标题 | `####` | `①②③` | `#### ① LEFT 函数` | 谨慎使用，用于更细颗粒点位 |
 
-Additional long-form rules:
+长篇规则：
 
-- If the article has background context, make it a standalone first-level section named `# 前言`.
-- First-level headings must follow `# 一、{emoji}{heading}` when using emoji.
-- Emoji must form a coherent series: use the same semantic family or closely related imagery across all first-level headings.
-- If the topic has an obvious visual metaphor, use that metaphor consistently. For example, landscape-themed articles should use landscape-related emoji for all first-level headings.
-- Put reference material at the end as its own first-level heading: `# 🐣彩蛋 One More Things`.
-- Use fourth-level headings only when the section is dense enough to justify one more layer.
+- 如果文章有背景上下文，单独整理为一级标题 `# 前言`。
+- 使用 emoji 时，一级标题格式为 `# 一、{emoji}{标题}`。
+- 一级标题 emoji 必须形成统一语义系列，不要随机混用。
+- 如果主题有明显视觉隐喻，要沿用同一隐喻体系。例如山野路线类文章，一级标题都使用路径、地图、山、日出等同系列 emoji。
+- 参考材料放在文章末尾，作为独立一级标题：`# 🐣彩蛋 One More Things`。
+- 四级标题只在内容密度足够时使用，避免层级过深。
 
-## Short-Form Type
+## 短篇类型
 
-Use for medium or short articles that need structure but not deep nesting.
+适用于中短文章，需要结构但不需要深层级。
 
-| Level | Markdown | Numbering | Example | Usage |
+| 层级 | Markdown | 编号 | 示例 | 用途 |
 | --- | --- | --- | --- | --- |
-| First-level | `#` | `一、二、三` | `# 一、函数基础入门` | Chapter title |
-| Second-level | `##` | `1、2、3` | `## 1、常用函数介绍` | Major module |
+| 一级标题 | `#` | `一、二、三` | `# 一、函数基础入门` | 章节标题 |
+| 二级标题 | `##` | `1、2、3` | `## 1、常用函数介绍` | 主要模块 |
 
-Short-form rules:
+短篇规则：
 
-- Do not create `###` or `####` headings.
-- Fold minor subpoints into paragraphs, ordered lists, or bold lead-ins under the nearest `##`.
-- Use first-level emoji only when it improves visual rhythm; if used, keep the same coherent-series rule as Long-form.
+- 不创建 `###` 或 `####` 标题。
+- 小点位合并进段落、有序列表，或用加粗引导语放在最近的 `##` 下。
+- 只有在能改善视觉节奏时才给一级标题加 emoji；如果使用，仍然遵守统一语义系列规则。
 
-## Only Second Type
+## 纯二级类型
 
-Use when the user wants a flat, lightweight structure.
+适用于轻量、扁平的文章结构。
 
-- Use only Markdown second-level headings: `##`.
-- Use Chinese parenthesized numbering: `(1) (2) (3)`.
-- Example: `## (1) 文本函数`
-- Do not use `#`, `###`, or `####`.
-- Keep every heading at comparable scope. Merge overly tiny sections into body paragraphs.
+- 只使用 Markdown 二级标题：`##`。
+- 使用中文括号编号：`(1) (2) (3)`。
+- 示例：`## (1) 文本函数`
+- 不使用 `#`、`###`、`####`。
+- 每个标题的颗粒度要接近，过小的标题合并进正文段落。
 
-## Emoji Guidance
+## Emoji 规则
 
-Use emoji only for first-level headings unless the user asks otherwise.
+默认只给一级标题使用 emoji，除非用户另有要求。
 
-Choose emoji by semantic series:
+按语义系列选择：
 
-- Landscape or journey topics: mountain, road, compass, sunrise, map, river.
-- Tools or methods topics: toolbox, wrench, hammer, gear, magnifier, ruler.
-- Learning or knowledge topics: book, lamp, seedling, telescope, puzzle, graduation cap.
-- Business or growth topics: chart, rocket, target, seedling, storefront, briefcase.
-- Review or retrospective topics: hourglass, calendar, archive, memo, lens, checkpoint.
+- 路线 / 旅程主题：山、路、指南针、日出、地图、河流。
+- 工具 / 方法主题：工具箱、扳手、锤子、齿轮、放大镜、尺子。
+- 学习 / 知识主题：书、灯、幼苗、望远镜、拼图、毕业帽。
+- 商业 / 增长主题：图表、火箭、靶心、幼苗、店铺、公文包。
+- 复盘 / 回顾主题：沙漏、日历、档案、备忘录、镜头、检查点。
 
-Avoid random emoji mixing. Do not use emoji that changes the tone into cute, comic, or overly casual unless the source article already has that style.
+避免随机混用 emoji。除非原文就是可爱或轻松风格，否则不要使用会让语气变得过度可爱、漫画化或随意的 emoji。
 
-## Output Standards
+## 输出标准
 
-- Maintain valid Markdown.
-- Use Chinese punctuation in numbering: `一、` and `1、`.
-- Keep a space after Markdown heading marks: `# 一、标题`, not `#一、标题`.
-- Do not add a table of contents unless the user asks.
-- Do not invent new sections unless they are needed to repair the hierarchy.
-- Do not rewrite body copy for style unless explicitly requested.
+- 保持合法 Markdown。
+- 使用中文编号标点：`一、` 和 `1、`。
+- Markdown 标题标记后保留空格：`# 一、标题`，不要写成 `#一、标题`。
+- 除非用户要求，不添加目录。
+- 除非为了修复层级，否则不要凭空新增章节。
+- 除非用户明确要求，不改写正文文风。

@@ -1,85 +1,85 @@
 ---
 name: mondaylab-professional-article-style
-description: Use when writing, rewriting, or reviewing 星期一研究室 / MondayLab professional articles, especially AI product scenario reviews, tool testing articles, public-account drafts, YouMind-style writing prompts, scene-based evaluations, prompt examples, screenshot notes, reference lists, and articles that need MondayLab's warm but professional Chinese voice.
+description: 当需要撰写、改写或评审星期一研究室 / MondayLab 专业文章时使用，尤其适用于 AI 产品场景测评、工具测试文章、公众号草稿、YouMind 风格写作提示词、场景化评测、Prompt 示例、截图说明、reference 列表，以及需要保持星期一研究室温和但专业的中文语气的文章。
 ---
 
-# MondayLab Professional Article Style
+# 星期一研究室专业文章风格
 
-Use this skill to keep 星期一研究室 professional articles consistent in voice, structure, and reader value.
+使用这个 Skill，让星期一研究室的专业文章在语言、结构和读者价值上保持一致。
 
-This skill controls writing style. For topic direction, use `mondaylab-content-direction`. For Markdown heading hierarchy, use `article-heading-structure`.
+这个 Skill 负责写作风格。选题方向使用 `mondaylab-content-direction`，Markdown 标题层级使用 `article-heading-structure`。
 
-## Writing Voice
+## 语言风格
 
-Use a warm, conversational, public-account style:
+使用温和、自然、有对话感的公众号语言：
 
-- Use natural address terms such as “我们”, “小编”, “小伙伴”.
-- Keep the tone relaxed and approachable, not stiff or academic.
-- Use internet-native expressions and mild emotional phrasing when useful.
-- Use transition phrases such as “我们”, “大家”, “值得一提的是”, “细心的小伙伴已经发现”等, adjusted to the scene.
-- Stay professional even when conversational. Do not become cute, exaggerated, or salesy.
+- 使用“我们”“小编”“小伙伴”等自然称呼。
+- 语气轻松自然，避免过于正式和论文式表达。
+- 可以适当使用网络用语和情绪化表达，但不要夸张。
+- 过渡语可以使用“我们”“大家”“值得一提的是”“细心的小伙伴已经发现”等，根据具体场景调整。
+- 即使是对话感表达，也要保持专业，不要变得可爱化、夸张化或强销售感。
 
-## Content Organization
+## 内容组织
 
-After introducing a concept or method, immediately connect it to a concrete operation, example, screenshot, prompt, or result.
+介绍一个理论、概念或方法之后，必须尽快接上具体操作、案例、截图、Prompt 或结果。
 
-Required patterns:
+必要模式：
 
-- If a feature is demonstrated, include a concrete screenshot or result display when possible.
-- If a screenshot is needed but not available, mark it clearly as `【截图图：{说明内容}】`.
-- Use tables to organize complex information.
-- Provide accessible links when referencing tools, products, docs, templates, or demos.
-- Put references at the end when external materials are used.
+- 如果展示功能，尽量配具体截图或效果图。
+- 如果当前缺少截图，明确标记为：`【截图图：{说明内容}】`。
+- 复杂信息优先用表格整理。
+- 提到工具、产品、文档、模板或 Demo 时，尽量提供可访问链接。
+- 使用外部资料时，reference 放在文章最后。
 
-## Value Output
+## 价值输出
 
-Do not only introduce tool features. Each article should explain the practical scene and why the scene matters.
+不要只介绍工具功能。每篇文章都要解释真实使用场景，以及这个场景为什么重要。
 
-For scene reviews:
+做场景测评时：
 
-- Describe the scene and its goal in detail.
-- Explain why this scene helps a user, team, or industry improve efficiency.
-- Provide a concrete prompt example when testing AI output.
-- Keep prompt examples roughly 100-300 Chinese characters unless the user requests otherwise.
-- After each scene test, explain the result: what worked, what failed, and what the reader can learn.
-- Titles should start from macro observation or market/user interest, not only from product functions.
+- 详细描述场景和目标。
+- 解释这个场景如何帮助用户、团队或行业提升效率。
+- 测试 AI 输出时，给出具体 Prompt 示例。
+- Prompt 示例默认控制在 100-300 个中文字符，除非用户另有要求。
+- 每个场景测完后，要解释结果：哪里有效、哪里不足、读者能学到什么。
+- 标题要从宏观观察、市场变化或用户兴趣出发，不要只从产品功能出发。
 
-## Article Format
+## 文章格式
 
-Use this default structure for professional scenario-review articles:
+专业场景测评文章默认结构：
 
-1. Background: describe the test background, user problem, or market observation.
-2. Main body: write the article with structured sections and real examples.
-3. Ending: summarize the value and raise the industry/workflow meaning.
+1. 背景：说明测试背景、用户问题或市场观察。
+2. 正文：用结构化章节和真实案例展开。
+3. 结尾：总结价值，并上升到行业、工作流或方法论意义。
 
-Heading style:
+标题格式：
 
-- First-level headings: `# 一、{emoji}{heading}`
-- Second-level headings: `## 1、{heading}`
-- Third-level headings: `### (1) {heading}`
-- Fourth-level headings: `#### ① {heading}`
+- 一级标题：`# 一、{emoji}{标题}`
+- 二级标题：`## 1、{标题}`
+- 三级标题：`### (1) {标题}`
+- 四级标题：`#### ① {标题}`
 
-Use fourth-level headings sparingly. Avoid making the hierarchy too deep.
+四级标题谨慎使用，避免层级过深。
 
-First-level heading emoji should not repeat in the same article. Avoid overly casual emoji such as hearts, clapping hands, or medal-style decorations unless the source article already uses that tone.
+同一篇文章的一级标题 emoji 不要重复。避免使用爱心、鼓掌、奖牌这类过于大烂大街或语气太轻的 emoji，除非原文已有这种风格。
 
-## Scene-Test Inputs
+## 场景测试输入
 
-Before writing from scratch, ask for missing essentials if they are not provided:
+如果从零写作，而用户没有提供关键信息，先补问：
 
-- What AI tool or product is being tested?
-- Which specific feature or scene should be tested?
-- What should readers understand after reading?
-- Desired length:
-  - first tier: 1000-2000 Chinese characters
-  - second tier: 2000-3000 Chinese characters
-  - third tier: 3000-4000 Chinese characters
+- 准备写哪个 AI 工具或产品？
+- 具体测试哪个功能或场景？
+- 希望读者读完知道什么，或被传达什么理念？
+- 目标字数：
+  - 第一档：1000-2000 字
+  - 第二档：2000-3000 字
+  - 第三档：3000-4000 字
 
-If enough context is already present, do not ask; proceed with reasonable assumptions.
+如果上下文已经足够，不要反复提问，直接做合理假设并推进。
 
-## AI Tone Removal
+## 去除 AI 味
 
-Avoid these AI-ish expressions:
+避免这些 AI 腔表达：
 
 - “不是……而是……”
 - “这就是我说的……”
@@ -90,13 +90,13 @@ Avoid these AI-ish expressions:
 - “孤立”
 - “给你最直接、最不绕弯……”
 
-Also avoid repetitive conclusion-heavy phrasing. Prefer concrete observations, examples, and practical judgments.
+也要避免重复的结论式表达。优先写具体观察、案例和判断。
 
-## Output Standards
+## 输出标准
 
-- Maintain valid Markdown unless writing directly into Feishu XML.
-- Keep body copy readable and human.
-- Use examples and scenes before abstract conclusions.
-- Do not write as a generic AI product review account.
-- Do not invent screenshots, links, or references. If missing, mark placeholders clearly.
-- When paired with `mondaylab-content-direction`, follow the content north star: explain how the tool enters a real workflow and becomes a final deliverable.
+- 除非写入飞书 XML，否则保持合法 Markdown。
+- 正文要像真人写的，清楚、自然、可读。
+- 先给例子和场景，再上升到抽象结论。
+- 不要写成泛泛的 AI 产品测评号。
+- 不要编造截图、链接或 reference。缺失时明确标记占位。
+- 与 `mondaylab-content-direction` 配合使用时，遵守内容北极星：说明工具如何进入真实工作流，并变成最终产物。

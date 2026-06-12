@@ -1,65 +1,65 @@
 ---
 name: mondaylab-content-direction
-description: Use when planning, reviewing, rewriting, or correcting 星期一研究室 / MondayLab article topics for WeChat, Xiaohongshu, X, public-channel distribution, AI product review, information aesthetics, Feishu course conversion, AI-native workflows, vibe coding, or cross-platform final deliverables.
+description: 当需要规划、评审、改写或纠偏星期一研究室 / MondayLab 的文章选题时使用，适用于公众号、小红书、X、公域分发、AI 产品测评、信息美学、飞书课程转化、AI Native 工作流、vibe coding、跨平台最终产物等内容。
 ---
 
-# MondayLab Content Direction
+# 星期一研究室内容方向
 
-Use this skill to turn content ideas into brand-aligned topics and channel plans.
+使用这个 Skill，把内容想法校准成符合星期一研究室品牌方向的选题和渠道表达。
 
-## Required References
+## 必读参考
 
-Read references as needed:
+按需阅读以下参考：
 
-- `references/commercial-strategy.md` for brand positioning and product boundaries.
-- `references/article-commercial-optimization.md` for article asset diagnosis, content lines, CTA patterns, and old-article transformation.
+- `references/commercial-strategy.md`：品牌定位、产品边界、商业化结构。
+- `references/article-commercial-optimization.md`：文章资产诊断、内容主线、CTA 模式、旧文改造。
 
-## Content North Star
+## 内容北极星
 
-Every topic should answer:
+每个选题都应该回答：
 
-> How does this AI product, method, tool, or scenario enter a real workflow and become a final deliverable?
+> 一个 AI 产品、方法、工具或场景，如何进入真实工作流，并最终变成一个可交付的产物？
 
-Avoid writing as:
+避免写成：
 
-- pure AI product review
-- pure Feishu feature tutorial
-- pure information design trick
-- pure beginner productivity content
+- 纯 AI 产品测评
+- 纯飞书功能教程
+- 纯信息设计小技巧
+- 纯小白效率内容
 
-Reframe toward:
+需要重构为：
 
-- AI result deposition
-- AI-native personal / team workflow
-- Agent + methodology + platform
-- information aesthetics as comprehension and collaboration design
-- visual final deliverables
+- AI 结果沉淀
+- AI Native 的个人 / 团队工作流
+- Agent + 方法论 + 平台
+- 信息美学作为理解与协作设计
+- 可视化最终产物
 
-## Content Lines
+## 内容主线
 
-Use these lines when designing topics:
+设计选题时，优先使用以下主线：
 
-1. AI results deposition: where do AI outputs go after generation?
-2. AI-native workflow: how do humans, AI, Agent, and systems divide labor?
-3. Feishu system course decomposition: how does `《玩转飞书系统课程》` solve a real workflow problem?
-4. Information Aestheticist: how does information become easier to understand, use, and share?
-5. Scenario review / vibe coding: how does a tool create a demo, page, white paper, map, or workflow?
-6. Enterprise human-Agent collaboration: how do businesses redesign processes and management visibility?
+1. AI 结果沉淀：AI 输出生成之后，应该进入哪里？
+2. AI Native 工作流：人、AI、Agent 和系统如何分工？
+3. 飞书系统课程拆解：`《玩转飞书系统课程》`如何解决一个真实工作流问题？
+4. 信息美学家：信息如何变得更好懂、更好用、更好传播？
+5. 场景测评 / vibe coding：一个工具如何生成 Demo、页面、白皮书、地图或工作流？
+6. 企业人机协同：企业如何重构流程和管理可见性？
 
-## Channel Rules
+## 渠道规则
 
-- WeChat: long-form trust, methodology, case studies, white paper serials.
-- Xiaohongshu: pain-point hooks, before/after cards, screenshots, course fragments.
-- X: AI-native insights, build-in-public, workflow threads, demos, visual artifacts.
-- Public articles should be one-source multi-distributed, then deposited back into the AI Product Review Knowledge Base.
+- 公众号：长文信任、方法论、案例、白皮书连载。
+- 小红书：痛点钩子、前后对比卡片、截图、课程片段。
+- X：AI Native 洞察、build in public、工作流 thread、Demo、视觉产物。
+- 公域文章应该一稿多投，最终沉淀回 AI 产品测评知识库。
 
-## CTA Rules
+## CTA 规则
 
-Use soft CTAs:
+使用柔性 CTA：
 
-- For product judgement: point to the free AI Product Review Knowledge Base.
-- For information expression: point to the free 信息美学家 column.
-- For systematic Feishu learning: point to `《玩转飞书系统课程》`.
-- For enterprise needs: point to AI workflow diagnosis, training, or management hub implementation.
+- 产品判断：引导到免费的 AI 产品测评知识库。
+- 信息表达：引导到免费的信息美学家专栏。
+- 系统学习飞书：引导到 `《玩转飞书系统课程》`。
+- 企业需求：引导到 AI 工作流诊断、企业培训或管理中枢搭建。
 
-Do not create new C-end product lines unless the brand strategy changes.
+除非品牌策略变化，不要新增 C 端产品线。
