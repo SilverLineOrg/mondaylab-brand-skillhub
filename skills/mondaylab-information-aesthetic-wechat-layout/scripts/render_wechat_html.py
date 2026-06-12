@@ -9,7 +9,7 @@ import re
 from pathlib import Path
 
 
-BLUE = "#1028ff"
+BLUE = "#0816f1"
 TEXT = "#111111"
 BODY_TEXT = "#4a4a4a"
 MUTED = "#888888"
@@ -28,6 +28,86 @@ def inline(text: str) -> str:
     text = re.sub(r"==(.+?)==", rf'<span style="display:inline-block;background:{BLUE};color:#fff;border-radius:999px;padding:0 8px;line-height:1.08;">\1</span>', text)
     text = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2" style="color:#1a56db;text-decoration:none;">\1</a>', text)
     return text
+
+
+def visual_len(text: str) -> int:
+    text = re.sub(r"==(.+?)==", r"\1", text)
+    text = re.sub(r"\*\*([^*]+)\*\*", r"\1", text)
+    text = re.sub(r"[，,。！？!?、\s|｜]", "", text)
+    return len(text)
+
+
+def split_h2_title(title: str) -> list[str]:
+    title = title.strip()
+    if "｜" in title or "|" in title:
+        return [part.strip() for part in re.split(r"[｜|]", title) if part.strip()]
+
+    if visual_len(title) <= 12:
+        return [title]
+
+    comma_match = re.search(r"[，,]", title)
+    if comma_match:
+        before = title[: comma_match.start()].strip()
+        after = title[comma_match.end() :].strip()
+        if before and after:
+            return [before, after]
+
+    highlight_match = re.search(r"==.+?==", title)
+    if highlight_match and highlight_match.start() >= 3:
+        before = title[: highlight_match.start()].strip()
+        after = title[highlight_match.start() :].strip()
+        if before and after:
+            return [before, after]
+
+    target = visual_len(title) // 2
+    count = 0
+    split_at = None
+    in_marker = False
+    i = 0
+    while i < len(title):
+        if title.startswith("==", i):
+            in_marker = not in_marker
+            i += 2
+            continue
+        if not in_marker and title[i].strip():
+            count += 1
+        if count >= target and not in_marker:
+            split_at = i + 1
+            break
+        i += 1
+    if split_at and split_at < len(title):
+        return [title[:split_at].strip(), title[split_at:].strip()]
+    return [title]
+
+
+def h2_highlight(text: str) -> str:
+    chars = []
+    for char in text:
+        if char.isspace():
+            chars.append(esc(char))
+            continue
+        chars.append(
+            f'<span style="display:inline-flex;align-items:center;justify-content:center;'
+            f'width:1.08em;height:1.08em;margin:0 -0.04em;border-radius:999px;'
+            f'background:{BLUE};color:#fff;line-height:1;font-weight:900;">{esc(char)}</span>'
+        )
+    return (
+        '<span style="display:inline-flex;align-items:center;white-space:nowrap;'
+        'vertical-align:baseline;margin:0 2px;">'
+        + "".join(chars)
+        + "</span>"
+    )
+
+
+def h2_inline(text: str) -> str:
+    parts = []
+    pos = 0
+    for match in re.finditer(r"==(.+?)==", text):
+        parts.append(inline(text[pos : match.start()]))
+        parts.append(h2_highlight(match.group(1)))
+        pos = match.end()
+    parts.append(inline(text[pos:]))
+    return "".join(parts)
 
 
 def split_section_title(text: str) -> tuple[str | None, str]:
@@ -51,12 +131,16 @@ def render_h1(text: str) -> str:
 def render_h2(text: str) -> str:
     number, title = split_section_title(text)
     index = f"({number})" if number else ""
+    title_lines = "".join(
+        f'<span style="display:block;">{h2_inline(line)}</span>'
+        for line in split_h2_title(title)
+    )
     return f"""
 <section style="margin:82px 0 38px;padding:0;">
   <div style="display:flex;align-items:flex-start;gap:18px;margin:0;">
     <div style="font-size:68px;line-height:0.95;font-weight:500;color:{BLUE};font-family:Arial, Helvetica, sans-serif;white-space:nowrap;">{esc(index)}</div>
     <div style="padding-top:5px;">
-      <div style="font-size:34px;line-height:1.14;font-weight:900;color:{TEXT};letter-spacing:0;">{inline(title)}</div>
+      <div style="font-size:34px;line-height:1.14;font-weight:900;color:{TEXT};letter-spacing:0;">{title_lines}</div>
       <div style="font-size:19px;line-height:1.4;font-weight:800;color:{TEXT};margin-top:14px;letter-spacing:0;">信息美学家Weekly &gt;&gt;&gt;</div>
     </div>
   </div>
