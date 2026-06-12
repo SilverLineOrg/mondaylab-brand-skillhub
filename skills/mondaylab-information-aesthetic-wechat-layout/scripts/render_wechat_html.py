@@ -88,8 +88,8 @@ def h2_highlight(text: str) -> str:
             continue
         chars.append(
             f'<span style="display:inline-flex;align-items:center;justify-content:center;'
-            f'width:1.13em;height:1.13em;margin:0 0.01em;border-radius:999px;'
-            f'background:{BLUE};color:#fff;line-height:1;font-weight:900;">{esc(char)}</span>'
+            f'width:1.18em;height:1.18em;margin:0 0.035em;border-radius:999px;'
+            f'background:{BLUE};color:#fff;line-height:1;font-size:0.86em;font-weight:900;">{esc(char)}</span>'
         )
     return (
         '<span style="display:inline-flex;align-items:center;white-space:nowrap;'
