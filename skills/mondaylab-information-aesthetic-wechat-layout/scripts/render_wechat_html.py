@@ -88,12 +88,12 @@ def h2_highlight(text: str) -> str:
             continue
         chars.append(
             f'<span style="display:inline-flex;align-items:center;justify-content:center;'
-            f'width:1.08em;height:1.08em;margin:0 -0.04em;border-radius:999px;'
+            f'width:1.13em;height:1.13em;margin:0 0.01em;border-radius:999px;'
             f'background:{BLUE};color:#fff;line-height:1;font-weight:900;">{esc(char)}</span>'
         )
     return (
         '<span style="display:inline-flex;align-items:center;white-space:nowrap;'
-        'vertical-align:baseline;margin:0 2px;">'
+        'vertical-align:baseline;margin:0 4px;">'
         + "".join(chars)
         + "</span>"
     )
@@ -137,11 +137,11 @@ def render_h2(text: str) -> str:
     )
     return f"""
 <section style="margin:82px 0 38px;padding:0;">
-  <div style="display:flex;align-items:flex-start;gap:18px;margin:0;">
-    <div style="font-size:68px;line-height:0.95;font-weight:500;color:{BLUE};font-family:Arial, Helvetica, sans-serif;white-space:nowrap;">{esc(index)}</div>
+  <div style="display:flex;align-items:flex-start;gap:20px;margin:0;">
+    <div style="font-size:64px;line-height:0.95;font-weight:500;color:{BLUE};font-family:Arial, Helvetica, sans-serif;white-space:nowrap;">{esc(index)}</div>
     <div style="padding-top:5px;">
-      <div style="font-size:34px;line-height:1.14;font-weight:900;color:{TEXT};letter-spacing:0;">{title_lines}</div>
-      <div style="font-size:19px;line-height:1.4;font-weight:800;color:{TEXT};margin-top:14px;letter-spacing:0;">信息美学家Weekly &gt;&gt;&gt;</div>
+      <div style="font-size:32px;line-height:1.28;font-weight:900;color:{TEXT};letter-spacing:0;">{title_lines}</div>
+      <div style="font-size:18px;line-height:1.4;font-weight:800;color:{TEXT};margin-top:16px;letter-spacing:0;">信息美学家Weekly &gt;&gt;&gt;</div>
     </div>
   </div>
 </section>""".strip()
