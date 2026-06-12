@@ -104,7 +104,7 @@ def render_paragraph(lines: list[str]) -> str:
             'flex-direction:column;justify-content:center;align-items:center;text-align:center;">'
             f'<img src="{esc(src)}" alt="{esc(alt)}" style="display:block;margin:0 auto;'
             'width:100%;max-width:100%;height:auto;border:none;border-radius:4px;object-fit:fill;'
-            'box-shadow:0 10px 28px rgba(15,23,42,0.14),0 2px 8px rgba(15,23,42,0.08);" />'
+            'box-shadow:rgba(170,170,170,0.5) 0px 0px 6px 0px;" />'
             f"{caption}"
             '</figure>'
         )
