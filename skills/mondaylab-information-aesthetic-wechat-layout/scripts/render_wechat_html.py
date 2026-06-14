@@ -214,7 +214,7 @@ def render_end_block() -> str:
       <span style="display:inline-block;color:#777;font-size:18px;line-height:1;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;vertical-align:middle;">END</span>
       <span style="display:inline-block;width:7px;height:7px;border-radius:999px;background:{BLUE};vertical-align:middle;margin-left:13px;animation:iaw-pulse 3.8s ease-in-out infinite;"></span>
     </p>
-    <div style="border-top:1px solid rgba(0,0,0,0.12);padding-top:18px;text-align:center;">
+    <div style="padding-top:18px;text-align:center;">
       <p style="margin:0 0 10px;padding:0;color:#777;font-size:12px;line-height:1.7;font-weight:500;letter-spacing:0;text-align:center;">
         内容排版 / 周一同学Zelina
       </p>
