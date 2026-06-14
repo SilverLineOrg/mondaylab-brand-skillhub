@@ -13,6 +13,7 @@ import subprocess
 import sys
 import urllib.error
 import urllib.request
+import importlib.util
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 from pathlib import Path
 from typing import Any
@@ -21,6 +22,9 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[3]
 LAYOUT_SCRIPT = ROOT / "skills/mondaylab-information-aesthetic-wechat-layout/scripts/render_wechat_html.py"
 DEFAULT_POSTER_SKILL = ROOT.parent / "magazine-visuals/skills/make-it-pop-poster"
+FRAGMENT_RENDERER = Path(__file__).resolve().parent / "render-fragment.mjs"
+DEFAULT_GITHUB_RAW_BASE = "https://raw.githubusercontent.com/SilverLineOrg/mondaylab-brand-skillhub/main"
+GENERATED_ASSET_DIR = ROOT / "assets/information-aesthetic-weekly"
 
 
 def run(command: list[str], cwd: Path | None = None, env: dict[str, str] | None = None) -> str:
@@ -744,15 +748,111 @@ def render_masthead(html_path: Path, png_path: Path, poster_skill: Path) -> None
     run([node, str(renderer), str(html_path), str(png_path)], cwd=ROOT, env=env)
 
 
+def node_env() -> tuple[str, dict[str, str]]:
+    node = shutil.which("node") or str(Path.home() / ".cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node")
+    env = os.environ.copy()
+    chrome = find_chrome()
+    if chrome:
+        env["CHROME_PATH"] = chrome
+    bundled_modules = Path.home() / ".cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules"
+    if bundled_modules.exists():
+        env["NODE_PATH"] = str(bundled_modules)
+    return node, env
+
+
+def load_layout_module() -> Any:
+    spec = importlib.util.spec_from_file_location("render_wechat_html", LAYOUT_SCRIPT)
+    if not spec or not spec.loader:
+        raise RuntimeError(f"Cannot load layout script: {LAYOUT_SCRIPT}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def make_section_heading_html(title: str) -> str:
+    layout = load_layout_module()
+    section = layout.render_h2(title)
+    scale = 1.48
+    return f"""<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{html.escape(strip_markdown(title))}</title>
+</head>
+<body style="margin:0;background:#fff;">
+  <div id="capture" style="width:1080px;height:500px;overflow:hidden;background:#fff;font-family:{layout.FONT_STACK};">
+    <div style="width:677px;transform:translate(48px, 20px) scale({scale:.6f});transform-origin:top left;">
+      {section}
+    </div>
+  </div>
+</body>
+</html>
+"""
+
+
+def render_section_heading(html_path: Path, png_path: Path) -> None:
+    if not FRAGMENT_RENDERER.exists():
+        raise FileNotFoundError(f"Cannot find fragment renderer: {FRAGMENT_RENDERER}")
+    node, env = node_env()
+    run([node, str(FRAGMENT_RENDERER), str(html_path), str(png_path)], cwd=ROOT, env=env)
+
+
+def insert_section_heading_images(markdown: str, slug: str, output_dir: Path) -> tuple[str, list[Path]]:
+    generated: list[Path] = []
+    section_index = 0
+    lines: list[str] = []
+    for line in markdown.splitlines():
+        match = re.match(r"^##\s+(.+?)\s*$", line)
+        if not match:
+            lines.append(line)
+            continue
+        section_index += 1
+        title = match.group(1).strip()
+        stem = f"{slug}-section-{section_index:02d}"
+        html_path = output_dir / f"{stem}.html"
+        png_path = output_dir / f"{stem}.png"
+        html_path.write_text(make_section_heading_html(title), encoding="utf-8")
+        render_section_heading(html_path, png_path)
+        generated.append(png_path)
+        lines.extend(["", f"![]({png_path.name})", ""])
+    return "\n".join(lines).strip() + "\n", generated
+
+
 def render_html(markdown_path: Path, html_path: Path) -> None:
     run([sys.executable, str(LAYOUT_SCRIPT), "--input", str(markdown_path), "--output", str(html_path)], cwd=ROOT)
+
+
+def publish_generated_assets(markdown: str, assets: list[Path], slug: str, raw_base: str) -> str:
+    asset_dir = GENERATED_ASSET_DIR / slug
+    asset_dir.mkdir(parents=True, exist_ok=True)
+    raw_base = raw_base.rstrip("/")
+    for asset in assets:
+        if not asset.exists():
+            continue
+        target = asset_dir / asset.name
+        shutil.copy2(asset, target)
+        repo_path = target.relative_to(ROOT).as_posix()
+        markdown = markdown.replace(f"]({asset.name})", f"]({raw_base}/{repo_path})")
+    return markdown
 
 
 def collect_image_sources(markdown: str) -> list[str]:
     return re.findall(r"!\[[^\]]*\]\(([^)]+)\)", markdown)
 
 
+def local_path_for_repo_raw_url(src: str) -> Path | None:
+    raw_base = DEFAULT_GITHUB_RAW_BASE.rstrip("/") + "/"
+    if not src.startswith(raw_base):
+        return None
+    relative = src[len(raw_base) :]
+    return ROOT / relative
+
+
 def check_image(src: str, base_dir: Path) -> tuple[str, str]:
+    local_raw = local_path_for_repo_raw_url(src)
+    if local_raw and local_raw.exists():
+        return src, "LOCAL_PENDING_PUSH"
     if re.match(r"https?://", src):
         request = urllib.request.Request(src, method="HEAD", headers={"User-Agent": "Mozilla/5.0"})
         try:
@@ -796,6 +896,9 @@ def main() -> None:
     parser.add_argument("--output-dir", default=str(ROOT), help="Output directory")
     parser.add_argument("--poster-skill-dir", default=str(DEFAULT_POSTER_SKILL), help="Path to make-it-pop-poster skill")
     parser.add_argument("--skip-masthead", action="store_true", help="Skip masthead HTML/PNG generation")
+    parser.add_argument("--skip-section-images", action="store_true", help="Keep H2 section headings as HTML instead of PNG images")
+    parser.add_argument("--use-local-assets", action="store_true", help="Keep generated masthead/section images as local relative paths")
+    parser.add_argument("--github-raw-base", default=DEFAULT_GITHUB_RAW_BASE, help="GitHub raw URL base for generated assets")
     parser.add_argument("--serve", action="store_true", help="Start a local preview server after generation")
     parser.add_argument("--port", type=int, default=8765, help="Preview server port")
     args = parser.parse_args()
@@ -815,11 +918,21 @@ def main() -> None:
     markdown = clean_image_alts(markdown, extract_image_captions(detail))
 
     title = first_h1(markdown, slug)
+    generated_assets: list[Path] = []
     if not args.skip_masthead:
         poster_skill = Path(args.poster_skill_dir).resolve()
         masthead_html.write_text(make_masthead_html(title, issue, markdown, poster_skill), encoding="utf-8")
         render_masthead(masthead_html, masthead_png, poster_skill)
+        generated_assets.append(masthead_png)
         markdown = insert_masthead(markdown, masthead_png.name)
+
+    section_images: list[Path] = []
+    if not args.skip_section_images:
+        markdown, section_images = insert_section_heading_images(markdown, slug, output_dir)
+        generated_assets.extend(section_images)
+
+    if generated_assets and not args.use_local_assets:
+        markdown = publish_generated_assets(markdown, generated_assets, slug, args.github_raw_base)
 
     markdown_path.write_text(markdown, encoding="utf-8")
     render_html(markdown_path, html_path)
@@ -830,6 +943,10 @@ def main() -> None:
     if not args.skip_masthead:
         print(f"Masthead HTML: {masthead_html}")
         print(f"Masthead PNG: {masthead_png}")
+    if section_images:
+        print("Section PNGs:")
+        for image in section_images:
+            print(f"  {image}")
     print("Images:")
     for src, status in checks:
         print(f"  {status}  {src}")

@@ -20,9 +20,11 @@ lark-cli docs +fetch --api-version v2 --doc "<飞书链接>" --detail full
 2. 清洗飞书导出内容，保留图片链接，并回填正文下划线。
 3. 为栏头图单独提炼 poster copy，再按 `make-it-pop-poster` 的杂志级视觉原则生成本期栏头 HTML 和 PNG。
 4. 把栏头 PNG 插入 Markdown 的 H1 后面。
-5. 调用 `mondaylab-information-aesthetic-wechat-layout` 生成公众号 HTML。
-6. 检查本地栏头图和飞书图片链接。
-7. 启动或复用 `8765` 本地预览服务。
+5. 把二级标题渲染成固定 `1080×500` PNG，避免公众号编辑器破坏复杂标题样式。
+6. 默认把本期生成的栏头图和标题图复制到仓库 `assets/information-aesthetic-weekly/{slug}/`，并在 Markdown/HTML 里替换成 GitHub raw HTTPS 地址。
+7. 调用 `mondaylab-information-aesthetic-wechat-layout` 生成公众号 HTML。
+8. 检查 GitHub 资产、标题图、飞书图片链接。
+9. 启动或复用 `8765` 本地预览服务。
 
 ## 运行方式
 
@@ -41,6 +43,9 @@ python3 agents/information-aesthetic-weekly-agent/scripts/run_weekly.py \
 - `--output-dir`：输出目录，默认仓库根目录。
 - `--poster-skill-dir`：公共 `make-it-pop-poster` skill 目录。
 - `--skip-masthead`：只重新生成 Markdown 和 HTML。
+- `--skip-section-images`：保留二级标题 HTML，不生成标题 PNG。
+- `--use-local-assets`：不替换为 GitHub raw 地址，保留本地相对路径。
+- `--github-raw-base`：生成资产的 GitHub raw URL 前缀，默认指向当前仓库 `main` 分支。
 - `--serve`：生成后启动本地预览服务。
 
 ## 标注约定

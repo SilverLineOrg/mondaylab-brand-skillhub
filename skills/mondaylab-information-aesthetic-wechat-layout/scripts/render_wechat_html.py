@@ -15,9 +15,9 @@ BODY_TEXT = "#4a4a4a"
 MUTED = "#888888"
 BORDER = "rgba(204, 204, 204, 0.45)"
 FONT_STACK = "Optima, 'Microsoft YaHei', PingFangSC-Regular, 'PingFang SC', serif"
-BODY_FONT_SIZE = 14
-H2_TITLE_FONT_SIZE = 42
-H2_TITLE_LINE_HEIGHT = 1.1
+BODY_FONT_SIZE = 13
+H2_TITLE_FONT_SIZE = 68
+H2_TITLE_LINE_HEIGHT = 1.05
 
 
 def esc(text: str) -> str:
@@ -188,14 +188,14 @@ def render_h2(text: str) -> str:
         for idx, line in enumerate(title_parts)
     )
     return f"""
-<section style="margin:0;padding:64px 0 58px;">
+<section style="margin:0;padding:18px 0 24px;">
   <div style="display:flex;align-items:center;gap:4px;margin:0;">
     <div style="font-size:{index_font_size}px;color:{BLUE};letter-spacing:0;white-space:nowrap;text-align:left;transform:scaleX(0.92);transform-origin:center center;">{index}</div>
     <div style="min-width:0;flex:1;">
       <div style="font-size:{H2_TITLE_FONT_SIZE}px;line-height:{H2_TITLE_LINE_HEIGHT};font-family:'Source Han Sans SC','Noto Sans CJK SC','思源黑体',sans-serif;font-weight:900;color:{TEXT};letter-spacing:0;">{title_lines}</div>
     </div>
   </div>
-  <div style="font-size:29px;line-height:1.25;font-weight:900;color:{TEXT};margin-top:26px;margin-left:12px;letter-spacing:0;text-align:left;">信息美学家Weekly &gt;&gt;&gt;</div>
+  <div style="font-size:42px;line-height:1.22;font-weight:900;color:{TEXT};margin-top:12px;margin-left:12px;letter-spacing:0;text-align:left;">信息美学家Weekly &gt;&gt;&gt;</div>
 </section>""".strip()
 
 
@@ -210,11 +210,7 @@ def render_h3(text: str) -> str:
 
 
 def render_h4(text: str) -> str:
-    return (
-        '<p style="font-size:16px;line-height:1.8em;font-weight:bold;'
-        'margin:0;padding:24px 0 8px;color:#000;text-align:left;letter-spacing:0.02em;">'
-        f"{inline(text)}</p>"
-    )
+    return render_h3(text)
 
 
 def render_paragraph(lines: list[str]) -> str:
@@ -230,17 +226,26 @@ def render_paragraph(lines: list[str]) -> str:
     image = re.match(r"^!\[([^\]]*)\]\(([^)]+)\)$", text)
     if image:
         alt, src = image.group(1), image.group(2)
+        is_section_heading = bool(re.search(r"-section-\d+\.png$", src))
         caption = (
             f'<figcaption style="color:{MUTED};font-size:14px;line-height:1.5em;'
             f'letter-spacing:0;text-align:center;font-weight:normal;margin:7px 0 0;padding:0;">{esc(alt)}</figcaption>'
-            if alt else ""
+            if alt and not is_section_heading else ""
+        )
+        figure_margin = "0 0 12px" if is_section_heading else "16px 0 14px"
+        image_style = (
+            'display:block;margin:0 auto;width:100%;max-width:100%;height:auto;'
+            'border:none;border-radius:0;object-fit:fill;box-shadow:none;'
+            if is_section_heading
+            else (
+                'display:block;margin:0 auto;width:100%;max-width:100%;height:auto;'
+                'border:none;border-radius:4px;object-fit:fill;box-shadow:rgba(170,170,170,0.5) 0px 0px 6px 0px;'
+            )
         )
         return (
-            '<figure style="margin:16px 0 14px;padding:0;display:flex;'
+            f'<figure style="margin:{figure_margin};padding:0;display:flex;'
             'flex-direction:column;justify-content:center;align-items:center;text-align:center;">'
-            f'<img src="{esc(src)}" alt="{esc(alt)}" style="display:block;margin:0 auto;'
-            'width:100%;max-width:100%;height:auto;border:none;border-radius:4px;object-fit:fill;'
-            'box-shadow:rgba(170,170,170,0.5) 0px 0px 6px 0px;" />'
+            f'<img src="{esc(src)}" alt="{esc(alt)}" style="{image_style}" />'
             f"{caption}"
             '</figure>'
         )
@@ -304,6 +309,47 @@ def render_blockquote(lines: list[str]) -> str:
     )
 
 
+def render_callout(lines: list[str]) -> str:
+    cleaned = [line.strip() for line in lines if line.strip()]
+    plain_text = " ".join(cleaned)
+    body = "<br/>".join(inline(line) for line in cleaned)
+    if not body:
+        return ""
+    is_prompt = bool(re.search(r"prompt|提示词", plain_text, flags=re.IGNORECASE))
+    label = "Prompt" if is_prompt else "Note"
+    sub_label = "Copy Ready" if is_prompt else "Context"
+    return (
+        '<section style="margin:24px 0 16px;padding:0;background:#fff;">'
+        '<div style="height:1px;background:#111;margin:0 0 0;"></div>'
+        '<div style="display:flex;align-items:center;gap:8px;margin:-1px 0 12px;">'
+        '<span style="display:inline-block;background:#111;color:#fff;font-size:10px;'
+        'line-height:1;font-weight:900;letter-spacing:0.12em;text-transform:uppercase;'
+        f'padding:5px 8px 4px;">{label}</span>'
+        f'<span style="display:inline-block;color:{BLUE};font-size:10px;line-height:1;'
+        f'font-weight:800;letter-spacing:0.08em;text-transform:uppercase;">{sub_label}</span>'
+        '</div>'
+        f'<div style="border-left:3px solid {BLUE};padding:2px 0 2px 14px;margin:0;">'
+        f'<div style="color:#2f2f2f;font-size:{BODY_FONT_SIZE}px;line-height:1.85em;'
+        f'letter-spacing:0.02em;text-align:left;">{body}</div></div>'
+        '</section>'
+    )
+
+
+def split_callout_line(line: str) -> tuple[str | None, str, str | None]:
+    start = None
+    end = None
+    body = line
+    start_match = re.search(r"<callout\b[^>]*>", body, flags=re.IGNORECASE)
+    if start_match:
+        start = body[: start_match.start()]
+        body = body[start_match.end() :]
+    end_match = re.search(r"</callout>", body, flags=re.IGNORECASE)
+    if end_match:
+        end = body[end_match.end() :]
+        body = body[: end_match.start()]
+    return start, body.strip(), end
+
+
 def render_markdown(md: str, title: str | None = None) -> str:
     lines = md.splitlines()
     blocks: list[str] = []
@@ -312,6 +358,8 @@ def render_markdown(md: str, title: str | None = None) -> str:
     ordered_items: list[str] = []
     table_lines: list[str] = []
     quote_lines: list[str] = []
+    callout_lines: list[str] = []
+    in_callout = False
 
     def flush_all() -> None:
         nonlocal paragraph, list_items, ordered_items, table_lines, quote_lines
@@ -334,6 +382,27 @@ def render_markdown(md: str, title: str | None = None) -> str:
     inferred_title = title
     for raw in lines:
         line = raw.rstrip()
+        if in_callout:
+            if re.search(r"</callout>", line, flags=re.IGNORECASE):
+                _, body, _ = split_callout_line(line)
+                if body:
+                    callout_lines.append(body)
+                blocks.append(render_callout(callout_lines))
+                callout_lines = []
+                in_callout = False
+            else:
+                callout_lines.append(line)
+            continue
+        if re.search(r"<callout\b", line, flags=re.IGNORECASE):
+            flush_all()
+            _, body, _ = split_callout_line(line)
+            callout_lines = [body] if body else []
+            if re.search(r"</callout>", line, flags=re.IGNORECASE):
+                blocks.append(render_callout(callout_lines))
+                callout_lines = []
+            else:
+                in_callout = True
+            continue
         if not line.strip():
             flush_all()
             continue
@@ -377,6 +446,8 @@ def render_markdown(md: str, title: str | None = None) -> str:
             continue
         paragraph.append(line)
 
+    if in_callout:
+        blocks.append(render_callout(callout_lines))
     flush_all()
     article_title = inferred_title or "信息美学家"
     content = "\n\n".join(block for block in blocks if block)
