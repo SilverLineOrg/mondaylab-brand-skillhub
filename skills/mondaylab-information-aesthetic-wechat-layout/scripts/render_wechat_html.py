@@ -202,11 +202,11 @@ def render_h2(text: str) -> str:
 def render_h3(text: str) -> str:
     return (
         '<p style="text-align:center;margin:46px 0 18px;padding:0;'
-        'line-height:1.35;font-size:0;">'
+        'line-height:1.9;font-size:0;">'
         '<span style="display:inline-block;background:#050505;color:#fff;'
-        'font-size:15px;line-height:1.35;font-weight:800;padding:4px 14px;'
+        'font-size:15px;line-height:1.9;font-weight:800;padding:0 14px;'
         'border-radius:0;text-align:center;margin:0 auto;">'
-        f"{inline(text)}</span></p>"
+        f"&nbsp;&nbsp;{inline(text)}&nbsp;&nbsp;</span></p>"
     )
 
 
