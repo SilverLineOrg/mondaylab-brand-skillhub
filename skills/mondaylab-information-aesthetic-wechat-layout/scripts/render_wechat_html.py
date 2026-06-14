@@ -244,9 +244,9 @@ def render_paragraph(lines: list[str]) -> str:
             )
         )
         return (
-            f'<figure style="margin:{figure_margin};padding:0;display:flex;'
+            f'<figure style="margin:{figure_margin};padding:0;display:flex;width:100%;max-width:100%;box-sizing:border-box;'
             'flex-direction:column;justify-content:center;align-items:center;text-align:center;">'
-            f'<img src="{esc(src)}" alt="{esc(alt)}" style="{image_style}" />'
+            f'<img src="{esc(src)}" alt="{esc(alt)}" width="100%" style="{image_style}" />'
             f"{caption}"
             '</figure>'
         )
