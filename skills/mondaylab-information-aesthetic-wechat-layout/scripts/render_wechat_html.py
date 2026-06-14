@@ -15,7 +15,7 @@ BODY_TEXT = "#4a4a4a"
 MUTED = "#888888"
 BORDER = "rgba(204, 204, 204, 0.45)"
 FONT_STACK = "Optima, 'Microsoft YaHei', PingFangSC-Regular, 'PingFang SC', serif"
-BODY_FONT_SIZE = 13
+BODY_FONT_SIZE = 14
 H2_TITLE_FONT_SIZE = 68
 H2_TITLE_LINE_HEIGHT = 1.05
 
@@ -321,17 +321,24 @@ def render_callout(lines: list[str]) -> str:
     sub_label = "Copy Ready" if is_prompt else "Context"
     return (
         '<section style="margin:24px 0 16px;padding:0;background:#fff;">'
-        '<div style="height:1px;background:#111;margin:0 0 0;"></div>'
-        '<div style="display:flex;align-items:center;gap:8px;margin:-1px 0 12px;">'
+        '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" '
+        'style="border-collapse:collapse;width:100%;margin:0;border-top:1px solid #111;">'
+        '<tr><td style="padding:0 0 12px 0;line-height:1;font-size:0;text-align:left;">'
         '<span style="display:inline-block;background:#111;color:#fff;font-size:10px;'
         'line-height:1;font-weight:900;letter-spacing:0.12em;text-transform:uppercase;'
         f'padding:5px 8px 4px;">{label}</span>'
         f'<span style="display:inline-block;color:{BLUE};font-size:10px;line-height:1;'
-        f'font-weight:800;letter-spacing:0.08em;text-transform:uppercase;">{sub_label}</span>'
-        '</div>'
-        f'<div style="border-left:3px solid {BLUE};padding:2px 0 2px 14px;margin:0;">'
-        f'<div style="color:#2f2f2f;font-size:{BODY_FONT_SIZE}px;line-height:1.85em;'
-        f'letter-spacing:0.02em;text-align:left;">{body}</div></div>'
+        f'font-weight:800;letter-spacing:0.08em;text-transform:uppercase;margin-left:8px;">{sub_label}</span>'
+        '</td></tr>'
+        '<tr><td style="padding:0;">'
+        '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" '
+        'style="border-collapse:collapse;width:100%;margin:0;">'
+        '<tr>'
+        f'<td width="4" bgcolor="{BLUE}" style="width:4px;background:{BLUE};font-size:0;line-height:0;">&nbsp;</td>'
+        f'<td style="padding:2px 0 2px 14px;color:#2f2f2f;font-size:{BODY_FONT_SIZE}px;'
+        f'line-height:1.85em;letter-spacing:0.02em;text-align:left;">{body}</td>'
+        '</tr></table>'
+        '</td></tr></table>'
         '</section>'
     )
 
