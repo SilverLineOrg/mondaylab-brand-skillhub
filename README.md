@@ -129,6 +129,12 @@ agents/information-aesthetic-weekly-agent
 
 它是外层编排，不放在 `skills/` 里。它会调用仓库里的信息美学家排版 skill，以及外部公共仓库里的 `make-it-pop-poster`。
 
+日常使用说明见：
+
+```text
+agents/information-aesthetic-weekly-agent/USAGE.md
+```
+
 ## 使用规则
 
 - `SKILL.md` 保持简洁，写清楚触发场景、判断标准和输出要求。
