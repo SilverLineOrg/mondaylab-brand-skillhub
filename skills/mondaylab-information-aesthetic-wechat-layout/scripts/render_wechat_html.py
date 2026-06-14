@@ -201,11 +201,12 @@ def render_h2(text: str) -> str:
 
 def render_h3(text: str) -> str:
     return (
-        '<div style="text-align:center;margin:46px 0 18px;">'
+        '<p style="text-align:center;margin:46px 0 18px;padding:0;'
+        'line-height:1.35;font-size:0;">'
         '<span style="display:inline-block;background:#050505;color:#fff;'
         'font-size:15px;line-height:1.35;font-weight:800;padding:4px 14px;'
-        'border-radius:0;">'
-        f"{inline(text)}</span></div>"
+        'border-radius:0;text-align:center;margin:0 auto;">'
+        f"{inline(text)}</span></p>"
     )
 
 
@@ -483,26 +484,37 @@ def build_html(title: str, content: str) -> str:
         status.textContent = text;
         window.setTimeout(function () {{ status.textContent = ""; }}, 2200);
       }}
-      async function copyRichHtml() {{
-        if (!article) return;
-        var html = article.outerHTML;
-        var text = plainText(article);
-        if (navigator.clipboard && window.ClipboardItem) {{
-          await navigator.clipboard.write([
-            new ClipboardItem({{
-              "text/html": new Blob([html], {{ type: "text/html" }}),
-              "text/plain": new Blob([text], {{ type: "text/plain" }})
-            }})
-          ]);
-          return;
-        }}
+      function copyBySelection() {{
         var range = document.createRange();
         range.selectNode(article);
         var selection = window.getSelection();
         selection.removeAllRanges();
         selection.addRange(range);
-        document.execCommand("copy");
+        var copied = document.execCommand("copy");
         selection.removeAllRanges();
+        if (!copied) {{
+          throw new Error("execCommand copy failed");
+        }}
+      }}
+      async function copyRichHtml() {{
+        if (!article) return;
+        var html = article.outerHTML;
+        var text = plainText(article);
+        if (navigator.clipboard && window.ClipboardItem) {{
+          try {{
+            await navigator.clipboard.write([
+              new ClipboardItem({{
+                "text/html": new Blob([html], {{ type: "text/html" }}),
+                "text/plain": new Blob([text], {{ type: "text/plain" }})
+              }})
+            ]);
+            return;
+          }} catch (error) {{
+            copyBySelection();
+            return;
+          }}
+        }}
+        copyBySelection();
       }}
       button.addEventListener("click", function () {{
         copyRichHtml().then(function () {{
