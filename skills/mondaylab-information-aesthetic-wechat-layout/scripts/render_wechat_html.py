@@ -191,16 +191,16 @@ def render_motion_styles() -> str:
 def render_opening_block() -> str:
     return f"""
 <section data-iaw-opening="true" style="margin:4px 16px 38px;padding:44px 0 22px;text-align:center;box-sizing:border-box;">
-  <div style="display:inline-block;position:relative;width:100%;max-width:430px;padding:20px 0 16px;text-align:left;box-sizing:border-box;border-top:1px solid rgba(8,22,241,0.22);border-bottom:1px solid rgba(8,22,241,0.22);overflow:hidden;">
+  <div style="display:inline-block;position:relative;width:100%;max-width:430px;padding:20px 0 16px;text-align:left;box-sizing:border-box;border-top:1px solid rgba(8,22,241,0.22);border-bottom:1px solid rgba(8,22,241,0.22);overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue','PingFang SC','Source Han Sans SC','Noto Sans CJK SC','Microsoft YaHei',Arial,sans-serif;">
     <span style="position:absolute;left:0;top:-1px;width:42%;height:2px;background:{BLUE};display:block;transform-origin:left center;animation:iaw-line 5.2s ease-in-out infinite;"></span>
     <span style="position:absolute;right:0;bottom:-1px;width:32%;height:2px;background:{BLUE};display:block;transform-origin:right center;animation:iaw-line 5.8s ease-in-out infinite;"></span>
     <span style="position:absolute;right:18px;top:18px;width:7px;height:7px;border-radius:999px;background:{BLUE};display:block;animation:iaw-pulse 3.6s ease-in-out infinite;"></span>
     <span style="position:absolute;left:50%;top:0;width:36px;height:100%;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(8,22,241,0.08),rgba(255,255,255,0));display:block;animation:iaw-scan 6.4s ease-in-out infinite;"></span>
-    <p style="position:relative;margin:0 0 12px;padding:0;color:#8f8f8f;font-size:10px;line-height:1;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;">MondayLab / 信息美学家 Weekly</p>
-    <p style="position:relative;margin:0;padding:0;color:#3f3f3f;font-size:18px;line-height:1.55;font-weight:500;letter-spacing:0.01em;text-align:left;">
+    <p style="position:relative;margin:0 0 12px;padding:0;color:#8f8f8f;font-size:10px;line-height:1;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;">MondayLab / 信息美学家 Weekly</p>
+    <p style="position:relative;margin:0;padding:0;color:#3f3f3f;font-size:15px;line-height:1.65;font-weight:700;letter-spacing:0.01em;text-align:left;font-family:'PingFang SC','Source Han Sans SC','Noto Sans CJK SC','Microsoft YaHei',Arial,sans-serif;">
       点击上方卡片，发现更多产品
     </p>
-    <p style="position:relative;margin:8px 0 0;padding:0;color:{BLUE};font-size:11px;line-height:1.2;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;">Focus on us</p>
+    <p style="position:relative;margin:8px 0 0;padding:0;color:{BLUE};font-size:10px;line-height:1.2;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;">Focus on us</p>
   </div>
 </section>""".strip()
 
