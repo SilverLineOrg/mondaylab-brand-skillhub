@@ -214,7 +214,7 @@ def render_opening_block() -> str:
 def render_end_block() -> str:
     return f"""
 <section data-iaw-ending="true" style="margin:58px 16px 0;padding:42px 0 26px;text-align:center;box-sizing:border-box;">
-  <div style="display:inline-block;position:relative;width:100%;max-width:430px;min-height:144px;padding:24px 48px 26px 48px;text-align:left;box-sizing:border-box;background:#fff;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue','PingFang SC','Source Han Sans SC','Noto Sans CJK SC','Microsoft YaHei',Arial,sans-serif;overflow:hidden;">
+  <div style="display:inline-flex;align-items:center;justify-content:center;position:relative;width:100%;max-width:430px;min-height:144px;padding:24px 48px 26px 48px;text-align:left;box-sizing:border-box;background:#fff;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue','PingFang SC','Source Han Sans SC','Noto Sans CJK SC','Microsoft YaHei',Arial,sans-serif;overflow:hidden;">
     <span style="position:absolute;left:18px;top:16px;width:118px;height:8px;background:{BLUE};display:block;transform:skewX(-8deg);transform-origin:left center;"></span>
     <span style="position:absolute;left:18px;top:16px;bottom:14px;width:8px;background:{BLUE};display:block;transform:skewY(-3deg);transform-origin:center center;"></span>
     <span style="position:absolute;right:18px;bottom:14px;width:112px;height:8px;background:{BLUE};display:block;transform:skewX(7deg);transform-origin:right center;animation:iaw-line 5.8s ease-in-out infinite;"></span>
