@@ -233,7 +233,7 @@ def render_paragraph(lines: list[str]) -> str:
             f'letter-spacing:0;text-align:center;font-weight:normal;margin:7px 0 0;padding:0;">{esc(alt)}</figcaption>'
             if alt and not is_section_heading else ""
         )
-        figure_margin = "0 16px 12px" if is_section_heading else "16px 16px 14px"
+        figure_margin = "26px 16px 12px" if is_section_heading else "16px 16px 14px"
         image_style = (
             'display:block;margin:0 auto;width:100%;max-width:100%;height:auto;'
             'border:none;border-radius:0;object-fit:fill;box-shadow:none;'
