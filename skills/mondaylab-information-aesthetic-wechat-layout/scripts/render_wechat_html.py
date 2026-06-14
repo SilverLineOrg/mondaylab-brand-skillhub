@@ -463,10 +463,59 @@ def build_html(title: str, content: str) -> str:
   <title>{esc(title)}</title>
 </head>
 <body style="margin:0;background:#ffffff;color:#111;font-family:{FONT_STACK};">
+  <div data-copy-toolbar="true" style="position:sticky;top:0;z-index:20;background:rgba(255,255,255,0.96);border-bottom:1px solid rgba(0,0,0,0.08);padding:12px 16px;text-align:center;backdrop-filter:saturate(140%) blur(8px);">
+    <button id="copy-wechat-html" type="button" style="appearance:none;border:1px solid #111;background:#111;color:#fff;border-radius:0;padding:9px 18px;font-size:13px;line-height:1;font-weight:800;letter-spacing:0.02em;cursor:pointer;font-family:{FONT_STACK};">复制到公众号</button>
+    <span id="copy-wechat-status" style="display:inline-block;margin-left:10px;color:#666;font-size:12px;line-height:1.4;vertical-align:middle;"></span>
+  </div>
   <section id="nice" data-tool="mondaylab-information-aesthetic-wechat-layout" style="max-width:677px;margin:0 auto;padding:28px 24px 56px;background:rgba(0,0,0,0);width:auto;font-family:{FONT_STACK};font-size:16px;color:#000;line-height:1.5em;word-spacing:0;letter-spacing:0;word-break:break-word;overflow-wrap:break-word;text-align:left;box-sizing:border-box;">
     {render_h1(title)}
     {content}
   </section>
+  <script>
+    (function () {{
+      var button = document.getElementById("copy-wechat-html");
+      var status = document.getElementById("copy-wechat-status");
+      var article = document.getElementById("nice");
+      function plainText(node) {{
+        return node ? node.innerText.replace(/\\n{{3,}}/g, "\\n\\n").trim() : "";
+      }}
+      function setStatus(text) {{
+        status.textContent = text;
+        window.setTimeout(function () {{ status.textContent = ""; }}, 2200);
+      }}
+      async function copyRichHtml() {{
+        if (!article) return;
+        var html = article.outerHTML;
+        var text = plainText(article);
+        if (navigator.clipboard && window.ClipboardItem) {{
+          await navigator.clipboard.write([
+            new ClipboardItem({{
+              "text/html": new Blob([html], {{ type: "text/html" }}),
+              "text/plain": new Blob([text], {{ type: "text/plain" }})
+            }})
+          ]);
+          return;
+        }}
+        var range = document.createRange();
+        range.selectNode(article);
+        var selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        document.execCommand("copy");
+        selection.removeAllRanges();
+      }}
+      button.addEventListener("click", function () {{
+        copyRichHtml().then(function () {{
+          var oldText = button.textContent;
+          button.textContent = "已复制";
+          setStatus("现在可以粘贴到公众号编辑器");
+          window.setTimeout(function () {{ button.textContent = oldText; }}, 1600);
+        }}).catch(function () {{
+          setStatus("复制失败，请全选正文区域手动复制");
+        }});
+      }});
+    }})();
+  </script>
 </body>
 </html>
 """
