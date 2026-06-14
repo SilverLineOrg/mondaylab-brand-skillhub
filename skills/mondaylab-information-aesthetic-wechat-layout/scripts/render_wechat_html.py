@@ -163,7 +163,7 @@ def split_section_title(text: str) -> tuple[str | None, str]:
 def render_h1(text: str) -> str:
     return (
         '<h1 style="font-size:22px;line-height:1.45;font-weight:800;'
-        'letter-spacing:0;margin:0 0 30px;color:#111;text-align:left;">'
+        'letter-spacing:0;margin:0 0 30px;padding:0 24px;color:#111;text-align:left;">'
         f"{inline(text)}</h1>"
     )
 
@@ -201,7 +201,7 @@ def render_h2(text: str) -> str:
 
 def render_h3(text: str) -> str:
     return (
-        '<p style="text-align:center;margin:46px 0 18px;padding:0;'
+        '<p style="text-align:center;margin:46px 24px 18px;padding:0;'
         'line-height:1.9;font-size:0;">'
         '<span style="display:inline-block;background:#050505;color:#fff;'
         'font-size:15px;line-height:1.9;font-weight:800;padding:0 14px;'
@@ -220,7 +220,7 @@ def render_paragraph(lines: list[str]) -> str:
         return ""
     if re.fullmatch(r"【📷截图：.+?】", text):
         return (
-            '<div style="margin:14px 0 10px;padding:14px 16px;background:#f7f7f7;'
+            '<div style="margin:14px 24px 10px;padding:14px 16px;background:#f7f7f7;'
             f'border:1px dashed #cfcfcf;color:{MUTED};font-size:14px;line-height:1.7;border-radius:4px;">'
             f"{esc(text)}</div>"
         )
@@ -233,7 +233,7 @@ def render_paragraph(lines: list[str]) -> str:
             f'letter-spacing:0;text-align:center;font-weight:normal;margin:7px 0 0;padding:0;">{esc(alt)}</figcaption>'
             if alt and not is_section_heading else ""
         )
-        figure_margin = "0 0 12px" if is_section_heading else "16px 0 14px"
+        figure_margin = "0 24px 12px" if is_section_heading else "16px 24px 14px"
         image_style = (
             'display:block;margin:0 auto;width:100%;max-width:100%;height:auto;'
             'border:none;border-radius:0;object-fit:fill;box-shadow:none;'
@@ -252,7 +252,7 @@ def render_paragraph(lines: list[str]) -> str:
         )
     return (
         f'<p style="color:{BODY_TEXT};font-size:{BODY_FONT_SIZE}px;line-height:1.8em;letter-spacing:0.02em;'
-        'text-align:left;text-indent:0;margin:0;padding:20px 0 8px;">'
+        'text-align:left;text-indent:0;margin:0;padding:20px 24px 8px;">'
         f"{inline(text)}</p>"
     )
 
@@ -264,7 +264,7 @@ def render_list(items: list[str], ordered: bool = False) -> str:
         body.append(f'<li style="margin:5px 0;color:#010101;font-size:{BODY_FONT_SIZE}px;line-height:1.8em;letter-spacing:0;text-align:left;font-weight:normal;">{inline(item)}</li>')
     return (
         f'<{tag} style="list-style-type:{"decimal" if ordered else "disc"};'
-        'margin:8px 0;padding:0 0 0 25px;color:#000;">'
+        'margin:8px 24px;padding:0 0 0 25px;color:#000;">'
         + "\n".join(body)
         + f"</{tag}>"
     )
@@ -281,7 +281,7 @@ def render_table(lines: list[str]) -> str:
     if not rows:
         return ""
     out = [
-        '<section style="margin:12px 0 10px;padding:0;overflow-x:auto;">'
+        '<section style="margin:12px 24px 10px;padding:0;overflow-x:auto;">'
         '<table style="display:table;border-collapse:collapse;width:100%;'
         'font-size:14px;line-height:1.5em;color:#000;text-align:left;">'
     ]
@@ -304,7 +304,7 @@ def render_table(lines: list[str]) -> str:
 def render_blockquote(lines: list[str]) -> str:
     body = "<br/>".join(inline(line.lstrip("> ").strip()) for line in lines)
     return (
-        '<blockquote style="margin:18px 0 10px;padding:12px 16px;border-left:4px solid '
+        '<blockquote style="margin:18px 24px 10px;padding:12px 16px;border-left:4px solid '
         f'{BLUE};background:#f7f8ff;color:#333;font-size:{BODY_FONT_SIZE}px;line-height:1.8em;letter-spacing:0.02em;">'
         f"{body}</blockquote>"
     )
@@ -320,7 +320,7 @@ def render_callout(lines: list[str]) -> str:
     label = "Prompt" if is_prompt else "Note"
     sub_label = "Copy Ready" if is_prompt else "Context"
     return (
-        '<section style="margin:24px 0 16px;padding:0;background:#fff;">'
+        '<section style="margin:24px 24px 16px;padding:0;background:#fff;">'
         '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" '
         'style="border-collapse:collapse;width:100%;margin:0;border-top:1px solid #111;">'
         '<tr><td style="padding:0 0 12px 0;line-height:1;font-size:0;text-align:left;">'
@@ -475,7 +475,7 @@ def build_html(title: str, content: str) -> str:
     <button id="copy-wechat-html" type="button" style="appearance:none;border:1px solid #111;background:#111;color:#fff;border-radius:0;padding:9px 18px;font-size:13px;line-height:1;font-weight:800;letter-spacing:0.02em;cursor:pointer;font-family:{FONT_STACK};">复制到公众号</button>
     <span id="copy-wechat-status" style="display:inline-block;margin-left:10px;color:#666;font-size:12px;line-height:1.4;vertical-align:middle;"></span>
   </div>
-  <section id="nice" data-tool="mondaylab-information-aesthetic-wechat-layout" style="max-width:677px;margin:0 auto;padding:28px 24px 56px;background:rgba(0,0,0,0);width:auto;font-family:{FONT_STACK};font-size:16px;color:#000;line-height:1.5em;word-spacing:0;letter-spacing:0;word-break:break-word;overflow-wrap:break-word;text-align:left;box-sizing:border-box;">
+  <section id="nice" data-tool="mondaylab-information-aesthetic-wechat-layout" style="max-width:677px;margin:0 auto;padding:28px 0 56px;background:rgba(0,0,0,0);width:auto;font-family:{FONT_STACK};font-size:16px;color:#000;line-height:1.5em;word-spacing:0;letter-spacing:0;word-break:break-word;overflow-wrap:break-word;text-align:left;box-sizing:border-box;">
     {render_h1(title)}
     {content}
   </section>
