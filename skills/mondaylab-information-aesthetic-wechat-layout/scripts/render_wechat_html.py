@@ -320,25 +320,17 @@ def render_callout(lines: list[str]) -> str:
     label = "Prompt" if is_prompt else "Note"
     sub_label = "Copy Ready" if is_prompt else "Context"
     return (
-        '<section style="margin:24px 16px 16px;padding:0;background:#fff;">'
-        '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" '
-        'style="border-collapse:collapse;width:100%;margin:0;border-top:1px solid #111;">'
-        '<tr><td style="padding:0 0 12px 0;line-height:1;font-size:0;text-align:left;">'
+        '<section style="margin:24px 16px 16px;padding:16px 16px 16px 18px;'
+        f'background:#f7f7f7;border-left:4px solid {BLUE};box-sizing:border-box;">'
+        '<p style="margin:0 0 12px;padding:0;line-height:1;font-size:0;text-align:left;">'
         '<span style="display:inline-block;background:#111;color:#fff;font-size:10px;'
         'line-height:1;font-weight:900;letter-spacing:0.12em;text-transform:uppercase;'
         f'padding:5px 8px 4px;">{label}</span>'
         f'<span style="display:inline-block;color:{BLUE};font-size:10px;line-height:1;'
         f'font-weight:800;letter-spacing:0.08em;text-transform:uppercase;margin-left:8px;">{sub_label}</span>'
-        '</td></tr>'
-        '<tr><td style="padding:0;">'
-        '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" '
-        'style="border-collapse:collapse;width:100%;margin:0;">'
-        '<tr>'
-        f'<td width="4" bgcolor="{BLUE}" style="width:4px;background:{BLUE};font-size:0;line-height:0;">&nbsp;</td>'
-        f'<td style="padding:2px 0 2px 14px;color:#2f2f2f;font-size:{BODY_FONT_SIZE}px;'
-        f'line-height:1.85em;letter-spacing:0.02em;text-align:left;">{body}</td>'
-        '</tr></table>'
-        '</td></tr></table>'
+        '</p>'
+        f'<p style="margin:0;color:#2f2f2f;font-size:{BODY_FONT_SIZE}px;'
+        f'line-height:1.85em;letter-spacing:0.02em;text-align:left;">{body}</p>'
         '</section>'
     )
 
