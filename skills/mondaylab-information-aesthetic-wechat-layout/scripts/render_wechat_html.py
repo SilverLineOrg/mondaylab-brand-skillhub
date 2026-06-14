@@ -493,7 +493,7 @@ def build_html(title: str, content: str) -> str:
       }}
       function copyBySelection() {{
         var range = document.createRange();
-        range.selectNode(article);
+        range.selectNodeContents(article);
         var selection = window.getSelection();
         selection.removeAllRanges();
         selection.addRange(range);
@@ -505,7 +505,7 @@ def build_html(title: str, content: str) -> str:
       }}
       async function copyRichHtml() {{
         if (!article) return;
-        var html = article.outerHTML;
+        var html = article.innerHTML;
         var text = plainText(article);
         if (navigator.clipboard && window.ClipboardItem) {{
           try {{
