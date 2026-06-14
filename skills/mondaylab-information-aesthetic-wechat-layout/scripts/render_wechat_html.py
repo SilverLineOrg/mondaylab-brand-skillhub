@@ -15,17 +15,26 @@ BODY_TEXT = "#4a4a4a"
 MUTED = "#888888"
 BORDER = "rgba(204, 204, 204, 0.45)"
 FONT_STACK = "Optima, 'Microsoft YaHei', PingFangSC-Regular, 'PingFang SC', serif"
-H2_TITLE_FONT_SIZE = 32
-H2_TITLE_LINE_HEIGHT = 1.28
-H2_INDEX_LINE_HEIGHT = 1.2
+BODY_FONT_SIZE = 14
+H2_TITLE_FONT_SIZE = 42
+H2_TITLE_LINE_HEIGHT = 1.1
 
 
 def esc(text: str) -> str:
     return html.escape(text, quote=True)
 
 
+def render_underline(match: re.Match[str]) -> str:
+    content = inline(html.unescape(match.group(1)))
+    return (
+        '<span style="text-decoration:underline;text-underline-offset:3px;'
+        f'text-decoration-thickness:1px;">{content}</span>'
+    )
+
+
 def inline(text: str) -> str:
     text = esc(text)
+    text = re.sub(r"&lt;u&gt;(.*?)&lt;/u&gt;", render_underline, text, flags=re.IGNORECASE | re.DOTALL)
     text = re.sub(r"`([^`]+)`", r'<code style="background:#f3f4f6;border-radius:4px;padding:2px 5px;font-size:0.92em;color:#111;">\1</code>', text)
     text = re.sub(r"\*\*([^*]+)\*\*", r'<strong style="color:#000;font-weight:bold;">\1</strong>', text)
     text = re.sub(r"==(.+?)==", rf'<span style="display:inline-block;background:{BLUE};color:#fff;border-radius:999px;padding:0 8px;line-height:1.08;">\1</span>', text)
@@ -36,31 +45,58 @@ def inline(text: str) -> str:
 def visual_len(text: str) -> int:
     text = re.sub(r"==(.+?)==", r"\1", text)
     text = re.sub(r"\*\*([^*]+)\*\*", r"\1", text)
+    text = re.sub(r"^\[[^\]]+\]", "", text)
     text = re.sub(r"[，,。！？!?、\s|｜]", "", text)
     return len(text)
 
 
+def auto_mark_h2_highlight(line: str) -> str:
+    if "==" in line:
+        return line
+    candidates = [
+        "轻量素材库",
+        "视觉资产库",
+        "素材库",
+        "画册视图",
+        "视觉库",
+        "找不到",
+        "可复用",
+        "可发布",
+        "可找",
+        "好用",
+        "实践",
+    ]
+    for phrase in candidates:
+        if phrase in line:
+            return line.replace(phrase, f"=={phrase}==", 1)
+    return line
+
+
 def split_h2_title(title: str) -> list[str]:
     title = title.strip()
+    title = re.sub(r"^\[[^\]]+\]\s*", "", title)
+    title = re.sub(r"^结语[:：]\s*", "", title)
+    title = re.sub(r"\[[^\]]*\]", "", title)
+    title = re.sub(r"[?？]", "", title)
     if "｜" in title or "|" in title:
-        return [part.strip() for part in re.split(r"[｜|]", title) if part.strip()]
+        return [auto_mark_h2_highlight(part.strip()) for part in re.split(r"[｜|]", title) if part.strip()][:2]
 
     if visual_len(title) <= 12:
-        return [title]
+        return [auto_mark_h2_highlight(title)]
 
     comma_match = re.search(r"[，,]", title)
     if comma_match:
         before = title[: comma_match.start()].strip()
         after = title[comma_match.end() :].strip()
         if before and after:
-            return [before, after]
+            return [auto_mark_h2_highlight(before), auto_mark_h2_highlight(after)]
 
     highlight_match = re.search(r"==.+?==", title)
     if highlight_match and highlight_match.start() >= 3:
         before = title[: highlight_match.start()].strip()
         after = title[highlight_match.start() :].strip()
         if before and after:
-            return [before, after]
+            return [auto_mark_h2_highlight(before), after]
 
     target = visual_len(title) // 2
     count = 0
@@ -79,24 +115,25 @@ def split_h2_title(title: str) -> list[str]:
             break
         i += 1
     if split_at and split_at < len(title):
-        return [title[:split_at].strip(), title[split_at:].strip()]
-    return [title]
+        return [auto_mark_h2_highlight(title[:split_at].strip()), auto_mark_h2_highlight(title[split_at:].strip())]
+    return [auto_mark_h2_highlight(title)]
 
 
 def h2_highlight(text: str) -> str:
     chars = []
-    for char in text:
+    for idx, char in enumerate(text):
         if char.isspace():
             chars.append(esc(char))
             continue
+        margin_left = "-0.22em" if idx else "0"
         chars.append(
             f'<span style="display:inline-flex;align-items:center;justify-content:center;'
-            f'min-width:1.18em;min-height:1.18em;padding:4px;margin:0 0.035em;border-radius:999px;box-sizing:border-box;'
-            f'background:{BLUE};color:#fff;line-height:1;font-size:0.86em;font-weight:900;">{esc(char)}</span>'
+            f'min-width:1.16em;min-height:1.16em;padding:4px;margin-left:{margin_left};border-radius:999px;box-sizing:content-box;'
+            f'background:{BLUE};color:#fff;line-height:1;font-size:0.88em;font-weight:900;letter-spacing:0;">{esc(char)}</span>'
         )
     return (
         '<span style="display:inline-flex;align-items:center;white-space:nowrap;'
-        'vertical-align:baseline;margin:0 4px;">'
+        'vertical-align:middle;margin:0 0.05em;">'
         + "".join(chars)
         + "</span>"
     )
@@ -133,32 +170,32 @@ def render_h1(text: str) -> str:
 
 def render_h2(text: str) -> str:
     number, title = split_section_title(text)
+    has_manual_break = "｜" in title or "|" in title
     title_parts = split_h2_title(title)
     index_font_size = round(
-        H2_TITLE_FONT_SIZE * H2_TITLE_LINE_HEIGHT * len(title_parts) / H2_INDEX_LINE_HEIGHT,
+        H2_TITLE_FONT_SIZE * H2_TITLE_LINE_HEIGHT * max(1.75, 0.98 * len(title_parts)),
         2,
     )
-    index_letter_spacing = round(-8 * len(title_parts), 2)
     index = (
-        f'<span style="font-family:\'Source Han Sans SC\',\'Noto Sans CJK SC\',\'思源黑体\',sans-serif;font-weight:200;">(</span>'
-        f'<span style="font-family:\'Roboto Slab\',Rockwell,Georgia,\'Times New Roman\',serif;font-weight:400;">{esc(number)}</span>'
-        f'<span style="font-family:\'Source Han Sans SC\',\'Noto Sans CJK SC\',\'思源黑体\',sans-serif;font-weight:200;">)</span>'
+        f'<span style="font-family:\'Source Han Sans SC\',\'Noto Sans CJK SC\',\'思源黑体\',sans-serif;font-weight:200;display:inline-block;">(</span>'
+        f'<span style="font-family:\'Roboto Slab\',Rockwell,Georgia,\'Times New Roman\',serif;font-weight:400;display:inline-block;margin-left:-0.07em;margin-right:-0.07em;">{esc(number)}</span>'
+        f'<span style="font-family:\'Source Han Sans SC\',\'Noto Sans CJK SC\',\'思源黑体\',sans-serif;font-weight:200;display:inline-block;">)</span>'
         if number
         else ""
     )
     title_lines = "".join(
-        f'<span style="display:block;">{h2_inline(line)}</span>'
-        for line in title_parts
+        f'<span style="display:flex;align-items:center;flex-wrap:nowrap;column-gap:0;row-gap:0;white-space:nowrap;{"margin-left:24px;" if has_manual_break and idx else ""}">{h2_inline(line)}</span>'
+        for idx, line in enumerate(title_parts)
     )
     return f"""
-<section style="margin:0;padding:60px 0;">
-  <div style="display:flex;align-items:flex-start;gap:24px;margin:0;">
-    <div style="font-size:{index_font_size}px;line-height:{H2_INDEX_LINE_HEIGHT};color:{BLUE};letter-spacing:{index_letter_spacing}px;white-space:nowrap;">{index}</div>
-    <div style="padding-top:5px;">
-      <div style="font-size:{H2_TITLE_FONT_SIZE}px;line-height:{H2_TITLE_LINE_HEIGHT};font-family:'Source Han Sans SC','Noto Sans CJK SC','思源黑体',sans-serif;font-weight:700;color:{TEXT};letter-spacing:1px;">{title_lines}</div>
-      <div style="font-size:18px;line-height:1.4;font-weight:800;color:{TEXT};margin-top:16px;letter-spacing:0;">信息美学家Weekly &gt;&gt;&gt;</div>
+<section style="margin:0;padding:64px 0 58px;">
+  <div style="display:flex;align-items:center;gap:4px;margin:0;">
+    <div style="font-size:{index_font_size}px;color:{BLUE};letter-spacing:0;white-space:nowrap;text-align:left;transform:scaleX(0.92);transform-origin:center center;">{index}</div>
+    <div style="min-width:0;flex:1;">
+      <div style="font-size:{H2_TITLE_FONT_SIZE}px;line-height:{H2_TITLE_LINE_HEIGHT};font-family:'Source Han Sans SC','Noto Sans CJK SC','思源黑体',sans-serif;font-weight:900;color:{TEXT};letter-spacing:0;">{title_lines}</div>
     </div>
   </div>
+  <div style="font-size:29px;line-height:1.25;font-weight:900;color:{TEXT};margin-top:26px;margin-left:12px;letter-spacing:0;text-align:left;">信息美学家Weekly &gt;&gt;&gt;</div>
 </section>""".strip()
 
 
@@ -166,7 +203,7 @@ def render_h3(text: str) -> str:
     return (
         '<div style="text-align:center;margin:46px 0 18px;">'
         '<span style="display:inline-block;background:#050505;color:#fff;'
-        'font-size:15px;line-height:1.35;font-weight:800;padding:6px 14px;'
+        'font-size:15px;line-height:1.35;font-weight:800;padding:4px 14px;'
         'border-radius:0;">'
         f"{inline(text)}</span></div>"
     )
@@ -208,7 +245,7 @@ def render_paragraph(lines: list[str]) -> str:
             '</figure>'
         )
     return (
-        f'<p style="color:{BODY_TEXT};font-size:16px;line-height:1.8em;letter-spacing:0.02em;'
+        f'<p style="color:{BODY_TEXT};font-size:{BODY_FONT_SIZE}px;line-height:1.8em;letter-spacing:0.02em;'
         'text-align:left;text-indent:0;margin:0;padding:20px 0 8px;">'
         f"{inline(text)}</p>"
     )
@@ -218,7 +255,7 @@ def render_list(items: list[str], ordered: bool = False) -> str:
     tag = "ol" if ordered else "ul"
     body = []
     for item in items:
-        body.append(f'<li style="margin:5px 0;color:#010101;font-size:16px;line-height:1.8em;letter-spacing:0;text-align:left;font-weight:normal;">{inline(item)}</li>')
+        body.append(f'<li style="margin:5px 0;color:#010101;font-size:{BODY_FONT_SIZE}px;line-height:1.8em;letter-spacing:0;text-align:left;font-weight:normal;">{inline(item)}</li>')
     return (
         f'<{tag} style="list-style-type:{"decimal" if ordered else "disc"};'
         'margin:8px 0;padding:0 0 0 25px;color:#000;">'
@@ -234,7 +271,7 @@ def parse_table_row(line: str) -> list[str]:
 
 def render_table(lines: list[str]) -> str:
     rows = [parse_table_row(line) for line in lines if line.strip()]
-    rows = [row for row in rows if not all(re.fullmatch(r":?-{3,}:?", cell) for cell in row)]
+    rows = [row for row in rows if not all(re.fullmatch(r":?-+:?", cell) for cell in row)]
     if not rows:
         return ""
     out = [
@@ -262,7 +299,7 @@ def render_blockquote(lines: list[str]) -> str:
     body = "<br/>".join(inline(line.lstrip("> ").strip()) for line in lines)
     return (
         '<blockquote style="margin:18px 0 10px;padding:12px 16px;border-left:4px solid '
-        f'{BLUE};background:#f7f8ff;color:#333;font-size:15px;line-height:1.8em;letter-spacing:0.02em;">'
+        f'{BLUE};background:#f7f8ff;color:#333;font-size:{BODY_FONT_SIZE}px;line-height:1.8em;letter-spacing:0.02em;">'
         f"{body}</blockquote>"
     )
 

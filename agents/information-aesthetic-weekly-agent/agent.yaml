@@ -1,0 +1,8 @@
+name: information-aesthetic-weekly-agent
+display_name: 信息美学家 Weekly Agent
+description: 每周生产信息美学家 Weekly，编排飞书拉取、公共栏头图 skill、公众号 HTML 排版和本地预览。
+entrypoint: scripts/run_weekly.py
+uses:
+  - skills/mondaylab-information-aesthetic-column
+  - skills/mondaylab-information-aesthetic-wechat-layout
+  - ../magazine-visuals/skills/make-it-pop-poster

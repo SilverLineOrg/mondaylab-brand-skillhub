@@ -15,6 +15,10 @@
 - `mondaylab-information-aesthetic-column`：用于撰写、改写和评审「信息美学家」专栏文章，把零散信息整理成好看、好找、好用、可复用的可视化产物。
 - `mondaylab-information-aesthetic-wechat-layout`：用于把「信息美学家」飞书文档或 Markdown 草稿转换成公众号 HTML 排版稿。
 
+## 已有 Agent
+
+- `information-aesthetic-weekly-agent`：用于每周生产「信息美学家 Weekly」，从飞书文档拉取正文和图片，调用公共杂志级栏头图 skill，生成 Markdown、公众号 HTML，并检查图片链接和本地预览。
+
 ## 写文章时怎么引用
 
 如果是日常文章选题、公众号 / 小红书 / X 文案、文章结构纠偏，主要引用：
@@ -105,10 +109,31 @@ mondaylab-information-aesthetic-wechat-layout
 请使用 mondaylab-information-aesthetic-wechat-layout，把这篇飞书文档转换成公众号 HTML，二级标题用大蓝色编号样式，三级标题用黑底白字步骤条样式。
 ```
 
+如果是每周固定生产整期「信息美学家 Weekly」，需要同时拉飞书、刷新图片、生成栏头图、生成 HTML 和预览，可以引用：
+
+```text
+information-aesthetic-weekly-agent
+```
+
+常用生产提示词：
+
+```text
+请使用 information-aesthetic-weekly-agent，帮我重新拉取这篇飞书文档，生成信息美学家 Weekly 的 Markdown、栏头图和公众号 HTML，并启动本地预览。
+```
+
+这个 Agent 位于：
+
+```text
+agents/information-aesthetic-weekly-agent
+```
+
+它是外层编排，不放在 `skills/` 里。它会调用仓库里的信息美学家排版 skill，以及外部公共仓库里的 `make-it-pop-poster`。
+
 ## 使用规则
 
 - `SKILL.md` 保持简洁，写清楚触发场景、判断标准和输出要求。
 - 长篇战略文档放在 `references/` 里，不要全部塞进 `SKILL.md`。
+- 外层业务流程放在 `agents/`，不要塞进 `skills/`；`skills/` 保持为可被其他 agent 调用的能力单元。
 - 后续文章、选题、课程材料、企业方案、平台合作思路，都优先用这里的 Skill 做方向校准。
 - 新增品牌相关 Skill 时，统一放进这个仓库，不要散落在本地其他目录。
 
