@@ -1,5 +1,7 @@
 # 第012期 ▷ AI 生成一堆素材后，怎么整理成好找又好用的视觉资产库？
 
+![](https://raw.githubusercontent.com/SilverLineOrg/mondaylab-brand-skillhub/main/assets/information-aesthetic-weekly/article-012-visual-asset-library/article-012-visual-asset-library-follow-card.png)
+
 ![](https://raw.githubusercontent.com/SilverLineOrg/mondaylab-brand-skillhub/main/assets/information-aesthetic-weekly/article-012-visual-asset-library/article-012-visual-asset-library-masthead.png)
 
 

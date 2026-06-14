@@ -2,8 +2,8 @@ import { createRequire } from "node:module";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
-if (process.argv.length !== 4) {
-  console.error("Usage: node scripts/render-fragment.mjs input.html output.png");
+if (process.argv.length !== 4 && process.argv.length !== 6) {
+  console.error("Usage: node scripts/render-fragment.mjs input.html output.png [width height]");
   process.exit(2);
 }
 
@@ -12,11 +12,13 @@ const { chromium } = require("playwright");
 
 const input = resolve(process.cwd(), process.argv[2]);
 const output = resolve(process.cwd(), process.argv[3]);
+const width = process.argv[4] ? Number(process.argv[4]) : 1080;
+const height = process.argv[5] ? Number(process.argv[5]) : 500;
 const executablePath = process.env.CHROME_PATH || undefined;
 
 const browser = await chromium.launch({ headless: true, executablePath });
 const page = await browser.newPage({
-  viewport: { width: 1080, height: 500 },
+  viewport: { width, height },
   deviceScaleFactor: 1,
 });
 
@@ -29,7 +31,7 @@ if (!box) {
 
 await page.screenshot({
   path: output,
-  clip: { x: 0, y: 0, width: 1080, height: 500 },
+  clip: { x: 0, y: 0, width, height },
   omitBackground: false,
 });
 

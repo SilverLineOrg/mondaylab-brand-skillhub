@@ -200,9 +200,9 @@ def render_opening_block() -> str:
     <p style="position:absolute;left:4px;top:56px;margin:0;padding:0;color:#111;font-size:10px;line-height:1;font-weight:900;letter-spacing:0.12em;text-transform:uppercase;writing-mode:vertical-rl;transform:rotate(180deg);font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;">ORIGIN</p>
     <p style="position:absolute;right:1px;top:34px;margin:0;padding:0;color:#111;font-size:9px;line-height:1;font-weight:900;letter-spacing:0.1em;text-transform:uppercase;writing-mode:vertical-rl;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;">ONE SYSTEM</p>
     <div style="position:relative;z-index:1;margin:0;padding:0;">
-      <p style="margin:0 0 5px;padding:0;color:#888;font-size:9px;line-height:1;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;">FOLLOW US</p>
+      <p style="margin:0 0 5px;padding:0;color:#888;font-size:9px;line-height:1;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;">FOLLOW MONDAYLAB</p>
       <p style="margin:0 0 2px;padding:0;color:#000;font-size:26px;line-height:1;font-weight:900;letter-spacing:0.01em;text-align:left;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;">MONDAYLAB</p>
-      <p style="display:inline-block;margin:0 0 12px;padding:0 3px;color:#111;font-size:15px;line-height:1.35;font-weight:900;letter-spacing:0.04em;text-align:left;background:linear-gradient(180deg,rgba(255,255,255,0) 48%,rgba(8,22,241,0.2) 48%);font-family:'PingFang SC','Source Han Sans SC','Noto Sans CJK SC','Microsoft YaHei',Arial,sans-serif;">关注星期一研究室</p>
+      <p style="display:inline-block;margin:0 0 12px;padding:0 3px;color:#111;font-size:15px;line-height:1.35;font-weight:900;letter-spacing:0.02em;text-align:left;background:linear-gradient(180deg,rgba(255,255,255,0) 48%,rgba(8,22,241,0.2) 48%);font-family:'PingFang SC','Source Han Sans SC','Noto Sans CJK SC','Microsoft YaHei',Arial,sans-serif;">从一个清晰的原点，重新理解未来工作方式</p>
       <p style="margin:0;padding:0;color:#111;font-size:8px;line-height:1.35;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;text-align:left;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;">
         AI PRODUCT · AI PKM/PMO · AI SYSTEM
       </p>
@@ -292,16 +292,22 @@ def render_paragraph(lines: list[str]) -> str:
     if image:
         alt, src = image.group(1), image.group(2)
         is_section_heading = bool(re.search(r"-section-\d+\.png$", src))
+        is_follow_card = "follow-card" in src
         caption = (
             f'<figcaption style="color:{MUTED};font-size:14px;line-height:1.5em;'
             f'letter-spacing:0;text-align:center;font-weight:normal;margin:7px 0 0;padding:0;">{esc(alt)}</figcaption>'
-            if alt and not is_section_heading else ""
+            if alt and not is_section_heading and not is_follow_card else ""
         )
-        figure_margin = "26px 16px 12px" if is_section_heading else "16px 16px 14px"
+        if is_section_heading:
+            figure_margin = "26px 16px 12px"
+        elif is_follow_card:
+            figure_margin = "0 16px 30px"
+        else:
+            figure_margin = "16px 16px 14px"
         image_style = (
             'display:block;margin:0 auto;width:100%;max-width:100%;height:auto;'
             'border:none;border-radius:0;object-fit:fill;box-shadow:none;'
-            if is_section_heading
+            if is_section_heading or is_follow_card
             else (
                 'display:block;margin:0 auto;width:100%;max-width:100%;height:auto;'
                 'border:none;border-radius:4px;object-fit:fill;box-shadow:rgba(170,170,170,0.5) 0px 0px 6px 0px;'
@@ -514,11 +520,17 @@ def render_markdown(md: str, title: str | None = None) -> str:
         blocks.append(render_callout(callout_lines))
     flush_all()
     article_title = inferred_title or "信息美学家"
+    pre_title_blocks: list[str] = []
+    if blocks and "follow-card" in blocks[0]:
+        pre_title_blocks.append(blocks.pop(0))
     content = "\n\n".join(block for block in blocks if block)
-    return build_html(article_title, content)
+    has_follow_card_image = bool(re.search(r"!\[[^\]]*\]\([^)]*follow-card[^)]*\)", md))
+    pre_title = "\n\n".join(pre_title_blocks)
+    return build_html(article_title, content, include_opening=not has_follow_card_image, pre_title=pre_title)
 
 
-def build_html(title: str, content: str) -> str:
+def build_html(title: str, content: str, include_opening: bool = True, pre_title: str = "") -> str:
+    opening = render_opening_block() if include_opening else ""
     return f"""<!doctype html>
 <html lang="zh-CN">
 <head>
@@ -533,7 +545,8 @@ def build_html(title: str, content: str) -> str:
   </div>
   <section id="nice" data-tool="mondaylab-information-aesthetic-wechat-layout" style="max-width:677px;margin:0 auto;padding:28px 0 56px;background:rgba(0,0,0,0);width:auto;font-family:{FONT_STACK};font-size:16px;color:#000;line-height:1.5em;word-spacing:0;letter-spacing:0;word-break:break-word;overflow-wrap:break-word;text-align:left;box-sizing:border-box;">
     {render_motion_styles()}
-    {render_opening_block()}
+    {opening}
+    {pre_title}
     {render_h1(title)}
     {content}
     {render_end_block()}

@@ -254,6 +254,16 @@ def insert_masthead(markdown: str, masthead_name: str) -> str:
     return image_line + "\n\n" + markdown
 
 
+def insert_follow_card(markdown: str, follow_card_name: str) -> str:
+    image_line = f"![]({follow_card_name})"
+    markdown = re.sub(r"\n!\[[^\]]*\]\([^)]*follow-card\.png\)\n", "\n", markdown)
+    lines = markdown.splitlines()
+    for idx, line in enumerate(lines):
+        if line.startswith("# "):
+            return "\n".join(lines[: idx + 1] + ["", image_line, ""] + lines[idx + 1 :]).strip() + "\n"
+    return image_line + "\n\n" + markdown
+
+
 def make_masthead_html(title: str, issue: str, markdown: str, poster_skill: Path) -> str:
     if not (poster_skill / "SKILL.md").exists():
         raise FileNotFoundError(f"Cannot find make-it-pop-poster skill: {poster_skill}")
@@ -791,11 +801,44 @@ def make_section_heading_html(title: str) -> str:
 """
 
 
-def render_section_heading(html_path: Path, png_path: Path) -> None:
+def make_follow_card_html() -> str:
+    layout = load_layout_module()
+    follow_card = layout.render_opening_block()
+    scale = 1.48
+    return f"""<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MondayLab Follow Card</title>
+</head>
+<body style="margin:0;background:#fff;">
+  <div id="capture" style="width:1080px;height:360px;overflow:hidden;background:#fff;font-family:{layout.FONT_STACK};">
+    <div style="width:677px;transform:translate(38px, 10px) scale({scale:.6f});transform-origin:top left;">
+      {follow_card}
+    </div>
+  </div>
+</body>
+</html>
+"""
+
+
+def render_fragment(html_path: Path, png_path: Path, width: int = 1080, height: int = 500) -> None:
     if not FRAGMENT_RENDERER.exists():
         raise FileNotFoundError(f"Cannot find fragment renderer: {FRAGMENT_RENDERER}")
     node, env = node_env()
-    run([node, str(FRAGMENT_RENDERER), str(html_path), str(png_path)], cwd=ROOT, env=env)
+    command = [node, str(FRAGMENT_RENDERER), str(html_path), str(png_path)]
+    if width != 1080 or height != 500:
+        command.extend([str(width), str(height)])
+    run(command, cwd=ROOT, env=env)
+
+
+def render_section_heading(html_path: Path, png_path: Path) -> None:
+    render_fragment(html_path, png_path)
+
+
+def render_follow_card(html_path: Path, png_path: Path) -> None:
+    render_fragment(html_path, png_path, width=1080, height=360)
 
 
 def insert_section_heading_images(markdown: str, slug: str, output_dir: Path) -> tuple[str, list[Path]]:
@@ -909,6 +952,8 @@ def main() -> None:
     issue = args.issue or extract_issue_from_slug(slug)
     markdown_path = output_dir / f"{slug}.md"
     html_path = output_dir / f"{slug}.html"
+    follow_card_html = output_dir / f"{slug}-follow-card.html"
+    follow_card_png = output_dir / f"{slug}-follow-card.png"
     masthead_html = output_dir / f"{slug}-masthead.html"
     masthead_png = output_dir / f"{slug}-masthead.png"
 
@@ -919,6 +964,11 @@ def main() -> None:
 
     title = first_h1(markdown, slug)
     generated_assets: list[Path] = []
+    follow_card_html.write_text(make_follow_card_html(), encoding="utf-8")
+    render_follow_card(follow_card_html, follow_card_png)
+    generated_assets.append(follow_card_png)
+    markdown = insert_follow_card(markdown, follow_card_png.name)
+
     if not args.skip_masthead:
         poster_skill = Path(args.poster_skill_dir).resolve()
         masthead_html.write_text(make_masthead_html(title, issue, markdown, poster_skill), encoding="utf-8")
@@ -940,6 +990,8 @@ def main() -> None:
     checks = [check_image(src, output_dir) for src in collect_image_sources(markdown)]
     print(f"Markdown: {markdown_path}")
     print(f"HTML: {html_path}")
+    print(f"Follow card HTML: {follow_card_html}")
+    print(f"Follow card PNG: {follow_card_png}")
     if not args.skip_masthead:
         print(f"Masthead HTML: {masthead_html}")
         print(f"Masthead PNG: {masthead_png}")
