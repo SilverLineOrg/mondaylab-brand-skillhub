@@ -168,6 +168,58 @@ def render_h1(text: str) -> str:
     )
 
 
+def render_motion_styles() -> str:
+    return f"""
+<style>
+@keyframes iaw-float {{
+  0%, 100% {{ transform: translate3d(0, 0, 0); opacity: 0.92; }}
+  50% {{ transform: translate3d(0, -7px, 0); opacity: 1; }}
+}}
+@keyframes iaw-line {{
+  0% {{ transform: scaleX(0.18); opacity: 0.35; }}
+  55% {{ transform: scaleX(1); opacity: 1; }}
+  100% {{ transform: scaleX(1); opacity: 0.72; }}
+}}
+@keyframes iaw-breathe {{
+  0%, 100% {{ transform: scale(0.96); opacity: 0.46; }}
+  50% {{ transform: scale(1.06); opacity: 0.72; }}
+}}
+@keyframes iaw-leaf {{
+  0%, 100% {{ transform: rotate(-10deg) translateY(0); opacity: 0.55; }}
+  50% {{ transform: rotate(5deg) translateY(-4px); opacity: 0.9; }}
+}}
+</style>""".strip()
+
+
+def render_opening_block() -> str:
+    return f"""
+<section data-iaw-opening="true" style="margin:10px 16px 34px;padding:42px 0 28px;text-align:center;box-sizing:border-box;">
+  <div style="display:inline-block;position:relative;min-width:285px;max-width:100%;padding:12px 12px 9px 52px;text-align:left;box-sizing:border-box;">
+    <span style="position:absolute;left:2px;top:0;width:78px;height:78px;border-radius:999px;background:#eaf2ff;display:block;animation:iaw-breathe 4.2s ease-in-out infinite;"></span>
+    <span style="position:absolute;right:5px;bottom:8px;width:18px;height:46px;border-radius:999px;background:linear-gradient(180deg,#dff4ff,#ffffff);display:block;animation:iaw-float 3.8s ease-in-out infinite;"></span>
+    <span style="position:absolute;right:21px;bottom:7px;width:15px;height:35px;border-radius:999px;background:linear-gradient(180deg,#e8f1ff,#ffffff);display:block;animation:iaw-float 4.5s ease-in-out infinite;"></span>
+    <p style="position:relative;margin:0 0 6px;padding:0;color:#ffc85a;font-size:16px;line-height:1.1;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;">FOCUS ON US</p>
+    <p style="position:relative;margin:0;padding:0 36px 5px 0;color:#5d8adf;font-size:20px;line-height:1.35;font-weight:800;letter-spacing:0.03em;border-bottom:1px solid #82a4e8;">
+      点击上方卡片 · 发现更多产品
+    </p>
+    <span style="position:absolute;left:52px;right:20px;bottom:8px;height:1px;background:{BLUE};transform-origin:left center;animation:iaw-line 4.8s ease-in-out infinite;display:block;opacity:0.45;"></span>
+  </div>
+</section>""".strip()
+
+
+def render_end_block() -> str:
+    return """
+<section data-iaw-ending="true" style="margin:52px 16px 0;padding:42px 0 28px;text-align:center;box-sizing:border-box;">
+  <p style="margin:0 0 78px;padding:0;text-align:center;font-size:0;line-height:1;">
+    <span style="display:inline-block;width:28px;height:18px;border-radius:28px 0 28px 0;background:#cfe5ff;vertical-align:middle;margin-right:5px;transform:rotate(-20deg);animation:iaw-leaf 4s ease-in-out infinite;"></span>
+    <span style="display:inline-block;width:18px;height:12px;border-radius:18px 0 18px 0;background:#ffd39a;vertical-align:middle;margin-right:8px;transform:rotate(-28deg);animation:iaw-leaf 4.8s ease-in-out infinite;"></span>
+    <span style="display:inline-block;color:#777;font-size:20px;line-height:1;font-weight:500;letter-spacing:0.06em;vertical-align:middle;">END</span>
+  </p>
+  <p style="margin:0 0 22px;padding:0;color:#555;font-size:16px;line-height:1.45;font-weight:500;letter-spacing:0;text-align:center;">内容排版 / 周一同学Zelina</p>
+  <p style="margin:0;padding:0;color:#555;font-size:16px;line-height:1.45;font-weight:500;letter-spacing:0;text-align:center;">内容策划 / 周一同学Zelina</p>
+</section>""".strip()
+
+
 def render_h2(text: str) -> str:
     number, title = split_section_title(text)
     has_manual_break = "｜" in title or "|" in title
@@ -468,8 +520,11 @@ def build_html(title: str, content: str) -> str:
     <span id="copy-wechat-status" style="display:inline-block;margin-left:10px;color:#666;font-size:12px;line-height:1.4;vertical-align:middle;"></span>
   </div>
   <section id="nice" data-tool="mondaylab-information-aesthetic-wechat-layout" style="max-width:677px;margin:0 auto;padding:28px 0 56px;background:rgba(0,0,0,0);width:auto;font-family:{FONT_STACK};font-size:16px;color:#000;line-height:1.5em;word-spacing:0;letter-spacing:0;word-break:break-word;overflow-wrap:break-word;text-align:left;box-sizing:border-box;">
+    {render_motion_styles()}
+    {render_opening_block()}
     {render_h1(title)}
     {content}
+    {render_end_block()}
   </section>
   <script>
     (function () {{
