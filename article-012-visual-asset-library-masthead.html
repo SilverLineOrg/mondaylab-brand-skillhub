@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>第012期 ▷ AI 生成一堆素材后，怎么整理成好找又好用的视觉资产库？</title>
+  <style>
+    :root {
+      --paper: #f7f8ff;
+      --ink: #060606;
+      --muted: #55565f;
+      --blue: #0816f1;
+      --soft-blue: rgba(8, 22, 241, .13);
+      --grid: rgba(8, 22, 241, .08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: #dfe3ff;
+      font-family: Inter, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    }
+    .poster {
+      position: relative;
+      width: 1080px;
+      height: 1440px;
+      overflow: hidden;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 88% 12%, rgba(8, 22, 241, .16), transparent 24%),
+        radial-gradient(circle at 8% 88%, rgba(8, 22, 241, .08), transparent 18%),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px),
+        linear-gradient(0deg, var(--grid) 1px, transparent 1px),
+        var(--paper);
+      background-size: auto, auto, 90px 90px, 90px 90px, auto;
+      box-shadow: 0 26px 80px rgba(0, 0, 0, .16);
+    }
+    .poster::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: .26;
+      pointer-events: none;
+      background-image:
+        repeating-radial-gradient(circle at 18% 22%, rgba(0, 0, 0, .12) 0 1px, transparent 1px 5px),
+        repeating-linear-gradient(110deg, transparent 0 14px, rgba(0, 0, 0, .04) 14px 15px);
+      mix-blend-mode: multiply;
+    }
+    .topbar {
+      position: absolute;
+      top: 68px;
+      left: 76px;
+      right: 76px;
+      z-index: 2;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+    .masthead { display: grid; gap: 16px; }
+    .masthead-cn {
+      font-size: 86px;
+      line-height: .9;
+      font-weight: 950;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+    .masthead-en {
+      color: #30323a;
+      font-size: 23px;
+      line-height: 1;
+      font-weight: 760;
+      letter-spacing: .01em;
+      white-space: nowrap;
+    }
+    .issue {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 18px;
+      color: #171717;
+      font-size: 18px;
+      line-height: 1;
+      font-weight: 860;
+      letter-spacing: .04em;
+    }
+    .issue::before {
+      content: "";
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 0 5px rgba(8, 22, 241, .12);
+    }
+    .callout {
+      position: absolute;
+      top: 264px;
+      right: 76px;
+      z-index: 3;
+      display: flex;
+      height: 52px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, .94);
+      box-shadow: 0 12px 28px rgba(8, 22, 241, .12);
+      border: 1px solid rgba(8, 22, 241, .14);
+      font-size: 19px;
+      font-weight: 760;
+    }
+    .callout span {
+      display: grid;
+      place-items: center;
+      height: 100%;
+      padding: 0 20px;
+      border-right: 1px solid rgba(8, 22, 241, .12);
+    }
+    .callout span:last-child { border-right: 0; }
+    .main {
+      position: absolute;
+      left: 76px;
+      right: 76px;
+      top: 346px;
+      z-index: 2;
+    }
+    .kicker {
+      margin: 0 0 48px 306px;
+      font-size: 45px;
+      line-height: 1;
+      font-weight: 950;
+      letter-spacing: 0;
+    }
+    .headline {
+      margin: 0;
+      max-width: 920px;
+      font-size: 102px;
+      line-height: .96;
+      font-weight: 950;
+      letter-spacing: 0;
+    }
+    .line {
+      display: block;
+      white-space: nowrap;
+    }
+    .thin { font-weight: 480; }
+    .select {
+      position: relative;
+      display: inline-block;
+      padding: 0 .08em .04em;
+      color: var(--blue);
+      isolation: isolate;
+    }
+    .select::before {
+      content: "";
+      position: absolute;
+      left: -.04em;
+      right: -.04em;
+      top: .11em;
+      bottom: .03em;
+      z-index: -1;
+      background: var(--soft-blue);
+      border: 2px solid rgba(8, 22, 241, .25);
+    }
+    .select::after {
+      content: "";
+      position: absolute;
+      top: .04em;
+      right: -.13em;
+      width: .2em;
+      height: .2em;
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: -2.25em 0 0 var(--blue);
+    }
+    .microcopy {
+      position: absolute;
+      left: 82px;
+      right: 92px;
+      top: 964px;
+      z-index: 2;
+      max-width: 820px;
+      color: #282a32;
+      font-size: 25px;
+      line-height: 1.62;
+      font-weight: 540;
+      letter-spacing: 0;
+    }
+    .microcopy strong { font-weight: 820; }
+    .pill {
+      position: absolute;
+      z-index: 4;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 45px;
+      padding: 7px 22px 9px;
+      border-radius: 12px;
+      color: #fff;
+      background: var(--blue);
+      font-size: 25px;
+      line-height: 1;
+      font-weight: 860;
+      letter-spacing: 0;
+      box-shadow: 0 13px 18px rgba(8, 22, 241, .2);
+      transform-origin: center;
+      white-space: nowrap;
+    }
+    .pill.light {
+      color: var(--blue);
+      background: #e8eaff;
+      border: 1px solid rgba(8, 22, 241, .22);
+    }
+    .p1 { top: 300px; left: 706px; transform: rotate(-1deg); }
+    .p2 { top: 492px; left: 82px; transform: rotate(4deg); }
+    .p3 { top: 668px; left: 666px; transform: rotate(-6deg); }
+    .p4 { top: 842px; left: 396px; transform: rotate(-7deg); }
+    .star {
+      position: absolute;
+      z-index: 4;
+      top: 305px;
+      left: 288px;
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--blue);
+      font-size: 26px;
+      font-weight: 900;
+      box-shadow: 0 8px 16px rgba(8, 22, 241, .2);
+    }
+    .bracket {
+      position: absolute;
+      top: 654px;
+      left: 84px;
+      width: 22px;
+      height: 154px;
+      border-left: 12px solid var(--blue);
+      border-top: 12px solid var(--blue);
+      border-bottom: 12px solid var(--blue);
+      opacity: .95;
+    }
+    .cursor {
+      position: absolute;
+      z-index: 5;
+      top: 585px;
+      right: 120px;
+      width: 112px;
+      height: 112px;
+      filter: drop-shadow(0 8px 5px rgba(0, 0, 0, .14));
+      transform: rotate(-13deg);
+    }
+    .cursor::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: #070706;
+      clip-path: polygon(7% 2%, 93% 55%, 56% 65%, 74% 98%, 55% 100%, 38% 69%, 12% 96%);
+    }
+    .bottom {
+      position: absolute;
+      z-index: 6;
+      left: 76px;
+      right: 76px;
+      bottom: 72px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 30px;
+      color: #4c4f5b;
+      font-size: 16px;
+      line-height: 1;
+      font-weight: 720;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .publisher { display: grid; gap: 10px; }
+    .brand-cn {
+      color: var(--ink);
+      font-size: 20px;
+      font-weight: 880;
+      letter-spacing: 0;
+    }
+    .tagline {
+      color: var(--blue);
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-align: right;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+  <article class="poster" aria-label="信息美学家第012期栏头图">
+    <div class="topbar">
+      <div class="masthead">
+        <div class="masthead-cn">信息美学家</div>
+        <div class="masthead-en">Information Aesthetician Weekly</div>
+      </div>
+      <div class="issue">ISSUE 012</div>
+    </div>
+    <div class="callout">
+      <span>Collect</span>
+      <span>Tag</span>
+      <span>Reuse</span>
+    </div>
+    <span class="star">★</span>
+    <span class="pill p1">AI Images</span>
+    <span class="pill light p2">Visual Assets</span>
+    <span class="pill p3">Searchable</span>
+    <span class="pill light p4">Reusable</span>
+    <span class="bracket"></span>
+    <span class="cursor"></span>
+    <main class="main">
+      <p class="kicker">AI 生成一堆素材后</p>
+      <h1 class="headline">
+        <span class="line">怎么整理成</span>
+        <span class="line"><span class="select">好找又好用</span></span>
+        <span class="line">的视觉资产库？</span>
+      </h1>
+    </main>
+    <section class="microcopy">
+      <p>这一期，我们用飞书多维表格做一个很小但很实用的场景：把 AI 生成的图片、项目截图、封面素材、灵感参考图等，整理成一个可以浏览、筛选、复用的视觉资产库。</p>
+    </section>
+    <footer class="bottom">
+      <div class="publisher">
+        <div class="brand-cn">星期一研究室出品</div>
+        <div>THE INFORMATION AESTHETICIAN</div>
+      </div>
+      <div class="tagline">TOOLS / SYSTEMS / VISUAL ORDER</div>
+    </footer>
+  </article>
+</body>
+</html>
