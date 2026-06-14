@@ -213,22 +213,27 @@ def render_opening_block() -> str:
 
 def render_end_block() -> str:
     return f"""
-<section data-iaw-ending="true" style="margin:58px 16px 0;padding:52px 0 34px;text-align:center;box-sizing:border-box;">
-  <div style="display:inline-block;width:100%;max-width:430px;text-align:left;box-sizing:border-box;">
-    <p style="margin:0 0 42px;padding:0;text-align:center;font-size:0;line-height:1;">
-      <span style="display:inline-block;width:68px;height:1px;background:rgba(0,0,0,0.16);vertical-align:middle;margin-right:15px;"></span>
-      <span style="display:inline-block;color:#777;font-size:18px;line-height:1;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;vertical-align:middle;">END</span>
-      <span style="display:inline-block;width:7px;height:7px;border-radius:999px;background:{BLUE};vertical-align:middle;margin-left:13px;animation:iaw-pulse 3.8s ease-in-out infinite;"></span>
-    </p>
-    <div style="padding-top:18px;text-align:center;">
-      <p style="margin:0 0 10px;padding:0;color:#777;font-size:12px;line-height:1.7;font-weight:500;letter-spacing:0;text-align:center;">
-        内容排版 / 周一同学Zelina
-      </p>
-      <p style="margin:0;padding:0;color:#777;font-size:12px;line-height:1.7;font-weight:500;letter-spacing:0;text-align:center;">
-        内容策划 / 周一同学Zelina
-      </p>
+<section data-iaw-ending="true" style="margin:58px 16px 0;padding:42px 0 26px;text-align:center;box-sizing:border-box;">
+  <div style="display:inline-block;position:relative;width:100%;max-width:430px;min-height:144px;padding:24px 48px 26px 48px;text-align:left;box-sizing:border-box;background:#fff;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue','PingFang SC','Source Han Sans SC','Noto Sans CJK SC','Microsoft YaHei',Arial,sans-serif;overflow:hidden;">
+    <span style="position:absolute;left:18px;top:16px;width:118px;height:8px;background:{BLUE};display:block;transform:skewX(-8deg);transform-origin:left center;"></span>
+    <span style="position:absolute;left:18px;top:16px;bottom:14px;width:8px;background:{BLUE};display:block;transform:skewY(-3deg);transform-origin:center center;"></span>
+    <span style="position:absolute;right:18px;bottom:14px;width:112px;height:8px;background:{BLUE};display:block;transform:skewX(7deg);transform-origin:right center;animation:iaw-line 5.8s ease-in-out infinite;"></span>
+    <span style="position:absolute;right:18px;top:20px;bottom:14px;width:8px;background:{BLUE};display:block;transform:skewY(2deg);transform-origin:center center;"></span>
+    <p style="position:absolute;left:4px;top:46px;margin:0;padding:0;color:#111;font-size:9px;line-height:1;font-weight:900;letter-spacing:0.14em;text-transform:uppercase;writing-mode:vertical-rl;transform:rotate(180deg);font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;">FINISH</p>
+    <p style="position:absolute;right:2px;top:38px;margin:0;padding:0;color:#111;font-size:9px;line-height:1;font-weight:900;letter-spacing:0.1em;text-transform:uppercase;writing-mode:vertical-rl;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;">THANK YOU</p>
+    <div style="position:relative;z-index:1;margin:0 auto;padding:0;text-align:center;max-width:260px;">
+      <p style="margin:0 0 6px;padding:0;color:#888;font-size:9px;line-height:1;font-weight:900;letter-spacing:0.18em;text-transform:uppercase;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;">THANKS FOR READING</p>
+      <p style="margin:0;padding:0;color:#000;font-size:42px;line-height:1;font-weight:900;letter-spacing:0.08em;text-align:center;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;">END</p>
     </div>
   </div>
+</section>""".strip()
+
+
+def render_credit_block() -> str:
+    return """
+<section data-iaw-credits="true" style="margin:6px 16px 0;padding:0 0 24px;text-align:center;box-sizing:border-box;">
+  <p style="margin:0 0 8px;padding:0;color:#777;font-size:12px;line-height:1.7;font-weight:500;letter-spacing:0;text-align:center;font-family:'PingFang SC','Source Han Sans SC','Noto Sans CJK SC','Microsoft YaHei',Arial,sans-serif;">内容排版 / 周一同学Zelina</p>
+  <p style="margin:0;padding:0;color:#777;font-size:12px;line-height:1.7;font-weight:500;letter-spacing:0;text-align:center;font-family:'PingFang SC','Source Han Sans SC','Noto Sans CJK SC','Microsoft YaHei',Arial,sans-serif;">内容策划 / 周一同学Zelina</p>
 </section>""".strip()
 
 
@@ -293,21 +298,24 @@ def render_paragraph(lines: list[str]) -> str:
         alt, src = image.group(1), image.group(2)
         is_section_heading = bool(re.search(r"-section-\d+\.png$", src))
         is_follow_card = "follow-card" in src
+        is_end_card = "end-card" in src
         caption = (
             f'<figcaption style="color:{MUTED};font-size:14px;line-height:1.5em;'
             f'letter-spacing:0;text-align:center;font-weight:normal;margin:7px 0 0;padding:0;">{esc(alt)}</figcaption>'
-            if alt and not is_section_heading and not is_follow_card else ""
+            if alt and not is_section_heading and not is_follow_card and not is_end_card else ""
         )
         if is_section_heading:
             figure_margin = "26px 16px 12px"
         elif is_follow_card:
             figure_margin = "0 16px 30px"
+        elif is_end_card:
+            figure_margin = "36px 16px 0"
         else:
             figure_margin = "16px 16px 14px"
         image_style = (
             'display:block;margin:0 auto;width:100%;max-width:100%;height:auto;'
             'border:none;border-radius:0;object-fit:fill;box-shadow:none;'
-            if is_section_heading or is_follow_card
+            if is_section_heading or is_follow_card or is_end_card
             else (
                 'display:block;margin:0 auto;width:100%;max-width:100%;height:auto;'
                 'border:none;border-radius:4px;object-fit:fill;box-shadow:rgba(170,170,170,0.5) 0px 0px 6px 0px;'
@@ -525,12 +533,20 @@ def render_markdown(md: str, title: str | None = None) -> str:
         pre_title_blocks.append(blocks.pop(0))
     content = "\n\n".join(block for block in blocks if block)
     has_follow_card_image = bool(re.search(r"!\[[^\]]*\]\([^)]*follow-card[^)]*\)", md))
+    has_end_card_image = bool(re.search(r"!\[[^\]]*\]\([^)]*end-card[^)]*\)", md))
     pre_title = "\n\n".join(pre_title_blocks)
-    return build_html(article_title, content, include_opening=not has_follow_card_image, pre_title=pre_title)
+    return build_html(
+        article_title,
+        content,
+        include_opening=not has_follow_card_image,
+        include_ending=not has_end_card_image,
+        pre_title=pre_title,
+    )
 
 
-def build_html(title: str, content: str, include_opening: bool = True, pre_title: str = "") -> str:
+def build_html(title: str, content: str, include_opening: bool = True, include_ending: bool = True, pre_title: str = "") -> str:
     opening = render_opening_block() if include_opening else ""
+    ending = render_end_block() if include_ending else render_credit_block()
     return f"""<!doctype html>
 <html lang="zh-CN">
 <head>
@@ -549,7 +565,7 @@ def build_html(title: str, content: str, include_opening: bool = True, pre_title
     {pre_title}
     {render_h1(title)}
     {content}
-    {render_end_block()}
+    {ending}
   </section>
   <script>
     (function () {{

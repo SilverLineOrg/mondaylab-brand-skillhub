@@ -11,6 +11,7 @@ import re
 import shutil
 import subprocess
 import sys
+import tempfile
 import urllib.error
 import urllib.request
 import importlib.util
@@ -23,6 +24,7 @@ ROOT = Path(__file__).resolve().parents[3]
 LAYOUT_SCRIPT = ROOT / "skills/mondaylab-information-aesthetic-wechat-layout/scripts/render_wechat_html.py"
 DEFAULT_POSTER_SKILL = ROOT.parent / "magazine-visuals/skills/make-it-pop-poster"
 FRAGMENT_RENDERER = Path(__file__).resolve().parent / "render-fragment.mjs"
+GIF_FRAME_RENDERER = Path(__file__).resolve().parent / "render-gif-frames.mjs"
 DEFAULT_GITHUB_RAW_BASE = "https://raw.githubusercontent.com/SilverLineOrg/mondaylab-brand-skillhub/main"
 GENERATED_ASSET_DIR = ROOT / "assets/information-aesthetic-weekly"
 
@@ -262,6 +264,12 @@ def insert_follow_card(markdown: str, follow_card_name: str) -> str:
         if line.startswith("# "):
             return "\n".join(lines[: idx + 1] + ["", image_line, ""] + lines[idx + 1 :]).strip() + "\n"
     return image_line + "\n\n" + markdown
+
+
+def insert_end_card(markdown: str, end_card_name: str) -> str:
+    image_line = f"![]({end_card_name})"
+    markdown = re.sub(r"\n!\[[^\]]*\]\([^)]*end-card\.png\)\s*$", "\n", markdown.strip())
+    return markdown.strip() + "\n\n" + image_line + "\n"
 
 
 def make_masthead_html(title: str, issue: str, markdown: str, poster_skill: Path) -> str:
@@ -803,7 +811,7 @@ def make_section_heading_html(title: str) -> str:
 
 def make_follow_card_html() -> str:
     layout = load_layout_module()
-    follow_card = layout.render_opening_block()
+    follow_card = layout.render_motion_styles() + "\n" + layout.render_opening_block()
     scale = 1.48
     return f"""<!doctype html>
 <html lang="zh-CN">
@@ -816,6 +824,28 @@ def make_follow_card_html() -> str:
   <div id="capture" style="width:1080px;height:360px;overflow:hidden;background:#fff;font-family:{layout.FONT_STACK};">
     <div style="width:677px;transform:translate(38px, 10px) scale({scale:.6f});transform-origin:top left;">
       {follow_card}
+    </div>
+  </div>
+</body>
+</html>
+"""
+
+
+def make_end_card_html() -> str:
+    layout = load_layout_module()
+    end_card = layout.render_motion_styles() + "\n" + layout.render_end_block()
+    scale = 1.48
+    return f"""<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MondayLab End Card</title>
+</head>
+<body style="margin:0;background:#fff;">
+  <div id="capture" style="width:1080px;height:360px;overflow:hidden;background:#fff;font-family:{layout.FONT_STACK};">
+    <div style="width:677px;transform:translate(38px, 0) scale({scale:.6f});transform-origin:top left;">
+      {end_card}
     </div>
   </div>
 </body>
@@ -838,6 +868,36 @@ def render_section_heading(html_path: Path, png_path: Path) -> None:
 
 
 def render_follow_card(html_path: Path, png_path: Path) -> None:
+    render_fragment(html_path, png_path, width=1080, height=360)
+
+
+def bundled_python() -> str:
+    candidate = Path.home() / ".cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3"
+    return str(candidate) if candidate.exists() else sys.executable
+
+
+def render_follow_card_gif(html_path: Path, gif_path: Path) -> None:
+    if not GIF_FRAME_RENDERER.exists():
+        raise FileNotFoundError(f"Cannot find GIF frame renderer: {GIF_FRAME_RENDERER}")
+    node, env = node_env()
+    with tempfile.TemporaryDirectory(prefix="iaw-follow-gif-") as temp_dir:
+        frame_dir = Path(temp_dir)
+        run(
+            [node, str(GIF_FRAME_RENDERER), str(html_path), str(frame_dir), "1080", "360", "24", "80"],
+            cwd=ROOT,
+            env=env,
+        )
+        script = (
+            "from pathlib import Path\n"
+            "from PIL import Image\n"
+            "import sys\n"
+            "frames=[Image.open(p).convert('P', palette=Image.Palette.ADAPTIVE) for p in sorted(Path(sys.argv[1]).glob('frame-*.png'))]\n"
+            "frames[0].save(sys.argv[2], save_all=True, append_images=frames[1:], duration=int(sys.argv[3]), loop=0, optimize=True, disposal=2)\n"
+        )
+        run([bundled_python(), "-c", script, str(frame_dir), str(gif_path), "80"], cwd=ROOT)
+
+
+def render_end_card(html_path: Path, png_path: Path) -> None:
     render_fragment(html_path, png_path, width=1080, height=360)
 
 
@@ -954,6 +1014,9 @@ def main() -> None:
     html_path = output_dir / f"{slug}.html"
     follow_card_html = output_dir / f"{slug}-follow-card.html"
     follow_card_png = output_dir / f"{slug}-follow-card.png"
+    follow_card_gif = output_dir / f"{slug}-follow-card.gif"
+    end_card_html = output_dir / f"{slug}-end-card.html"
+    end_card_png = output_dir / f"{slug}-end-card.png"
     masthead_html = output_dir / f"{slug}-masthead.html"
     masthead_png = output_dir / f"{slug}-masthead.png"
 
@@ -966,8 +1029,9 @@ def main() -> None:
     generated_assets: list[Path] = []
     follow_card_html.write_text(make_follow_card_html(), encoding="utf-8")
     render_follow_card(follow_card_html, follow_card_png)
-    generated_assets.append(follow_card_png)
-    markdown = insert_follow_card(markdown, follow_card_png.name)
+    render_follow_card_gif(follow_card_html, follow_card_gif)
+    generated_assets.extend([follow_card_png, follow_card_gif])
+    markdown = insert_follow_card(markdown, follow_card_gif.name)
 
     if not args.skip_masthead:
         poster_skill = Path(args.poster_skill_dir).resolve()
@@ -981,6 +1045,11 @@ def main() -> None:
         markdown, section_images = insert_section_heading_images(markdown, slug, output_dir)
         generated_assets.extend(section_images)
 
+    end_card_html.write_text(make_end_card_html(), encoding="utf-8")
+    render_end_card(end_card_html, end_card_png)
+    generated_assets.append(end_card_png)
+    markdown = insert_end_card(markdown, end_card_png.name)
+
     if generated_assets and not args.use_local_assets:
         markdown = publish_generated_assets(markdown, generated_assets, slug, args.github_raw_base)
 
@@ -992,6 +1061,9 @@ def main() -> None:
     print(f"HTML: {html_path}")
     print(f"Follow card HTML: {follow_card_html}")
     print(f"Follow card PNG: {follow_card_png}")
+    print(f"Follow card GIF: {follow_card_gif}")
+    print(f"End card HTML: {end_card_html}")
+    print(f"End card PNG: {end_card_png}")
     if not args.skip_masthead:
         print(f"Masthead HTML: {masthead_html}")
         print(f"Masthead PNG: {masthead_png}")
