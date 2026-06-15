@@ -21,6 +21,8 @@ from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[3]
+AGENT_DIR = Path(__file__).resolve().parents[1]
+DEFAULT_OUTPUT_DIR = AGENT_DIR / "output/current"
 LAYOUT_SCRIPT = ROOT / "skills/information-aesthetic-wechat-layout/scripts/render_wechat_html.py"
 DEFAULT_POSTER_SKILL = ROOT.parent / "magazine-visuals/skills/make-it-pop-poster"
 FRAGMENT_RENDERER = Path(__file__).resolve().parent / "render-fragment.mjs"
@@ -49,6 +51,18 @@ def run(command: list[str], cwd: Path | None = None, env: dict[str, str] | None 
             + result.stderr
         )
     return result.stdout
+
+
+def reset_current_output_dir(output_dir: Path) -> None:
+    if output_dir != DEFAULT_OUTPUT_DIR.resolve():
+        return
+    if output_dir.exists():
+        for child in output_dir.iterdir():
+            if child.is_dir():
+                shutil.rmtree(child)
+            else:
+                child.unlink()
+    output_dir.mkdir(parents=True, exist_ok=True)
 
 
 def parse_lark_output(raw: str) -> str:
@@ -996,7 +1010,7 @@ def main() -> None:
     parser.add_argument("--doc", required=True, help="Feishu/Lark document or wiki URL")
     parser.add_argument("--slug", required=True, help="Output file stem, e.g. article-013-topic")
     parser.add_argument("--issue", default=None, help="Issue number, e.g. 013")
-    parser.add_argument("--output-dir", default=str(ROOT), help="Output directory")
+    parser.add_argument("--output-dir", default=str(DEFAULT_OUTPUT_DIR), help="Output directory")
     parser.add_argument("--poster-skill-dir", default=str(DEFAULT_POSTER_SKILL), help="Path to make-it-pop-poster skill")
     parser.add_argument("--skip-masthead", action="store_true", help="Skip masthead HTML/PNG generation")
     parser.add_argument("--skip-section-images", action="store_true", help="Keep H2 section headings as HTML instead of PNG images")
@@ -1007,6 +1021,7 @@ def main() -> None:
     args = parser.parse_args()
 
     output_dir = Path(args.output_dir).resolve()
+    reset_current_output_dir(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     slug = args.slug
     issue = args.issue or extract_issue_from_slug(slug)

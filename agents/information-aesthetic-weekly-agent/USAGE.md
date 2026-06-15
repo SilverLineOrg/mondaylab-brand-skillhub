@@ -22,6 +22,14 @@
 - 生成公众号 HTML。
 - 启动或复用本地预览服务。
 
+默认本地产物会放在：
+
+```text
+agents/information-aesthetic-weekly-agent/output/current/
+```
+
+这个目录每次运行都会自动覆盖，只保留最新一版，避免仓库根目录堆很多临时 HTML、PNG 和 GIF。
+
 ## 带期数和文件名的模板
 
 如果你已经知道期数和文章 slug，可以这样写：

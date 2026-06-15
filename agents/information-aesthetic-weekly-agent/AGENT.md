@@ -28,6 +28,14 @@ lark-cli docs +fetch --api-version v2 --doc "<飞书链接>" --detail full
 10. 检查 GitHub 资产、标题图、飞书图片链接。
 11. 启动或复用 `8765` 本地预览服务。
 
+本地工作产物默认输出到：
+
+```text
+agents/information-aesthetic-weekly-agent/output/current/
+```
+
+这个目录是当前工作区，每次运行会自动清空并覆盖，只保留最新一版。发布到公众号需要长期可访问的图片，仍然复制到 `assets/information-aesthetic-weekly/{slug}/`。
+
 ## 运行方式
 
 ```bash
@@ -42,7 +50,7 @@ python3 agents/information-aesthetic-weekly-agent/scripts/run_weekly.py \
 - `--doc`：飞书文档或 wiki 链接。
 - `--slug`：输出文件名前缀。
 - `--issue`：期数，栏头图显示为 `ISSUE 013`。
-- `--output-dir`：输出目录，默认仓库根目录。
+- `--output-dir`：输出目录，默认 `agents/information-aesthetic-weekly-agent/output/current/`；默认目录每次运行会自动清空，只保留最新一版。
 - `--poster-skill-dir`：公共 `make-it-pop-poster` skill 目录。
 - `--skip-masthead`：只重新生成 Markdown 和 HTML。
 - `--skip-section-images`：保留二级标题 HTML，不生成标题 PNG。
