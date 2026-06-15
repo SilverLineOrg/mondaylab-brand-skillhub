@@ -9,6 +9,7 @@
 - `brand-strategy`：用于校准品牌定位、商业化边界、产品结构、平台策略。
 - `content-direction`：用于公众号、小红书、X 等公域内容的选题规划、文章纠偏、CTA 设计、内容资产沉淀。
 - `content-distribution`：用于把一篇文章或选题拆成公众号、小红书、知乎、少数派、X、即刻、GitHub 等平台的分发版本，并设计平台 CTA 和沉淀路径。
+- `xiaohongshu-image-post`：用于把文章、工作流、Skill、Demo 或课程案例拆成小红书图文轮播发布包，包括正文、每页脚本、封面方案和发布检查清单。
 - `enterprise-training`：用于 B 端企业培训、工作坊、诊断咨询、企业产品设计。
 - `article-heading-structure`：用于统一中文文章、公众号正文、星期一研究室长文的 Markdown 标题层级、编号和视觉节奏。
 - `professional-article-style`：用于统一星期一研究室场景测评、产品测试、专业公众号文章的语言风格、内容组织和写法禁区。
@@ -41,6 +42,18 @@ content-distribution
 
 ```text
 请使用 content-distribution，帮我把这篇文章拆成公众号、小红书、知乎、少数派、X、即刻和 GitHub 的分发方案，并说明每个平台的标题、开头、内容形态、CTA 和最终沉淀位置。
+```
+
+如果已经确定要做小红书图文，需要生成具体轮播脚本、封面方案、每页图文内容或图片发布包，可以引用：
+
+```text
+xiaohongshu-image-post
+```
+
+常用小红书图文提示词：
+
+```text
+请使用 xiaohongshu-image-post，基于这篇文章生成一组小红书图文发布包，包括每篇图文的 copy.md、carousel.md、cover-prompt.md 和 publish-checklist.md。如果适合，请给出封面和每页图片生成方案。
 ```
 
 如果文章涉及更底层的品牌定位、商业化边界、飞书是不是主线、C 端 / B 端产品结构，需要同时引用：
