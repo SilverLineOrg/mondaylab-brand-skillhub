@@ -14,6 +14,7 @@
 - `mondaylab-ai-product-reviewer`：用于撰写、改写和评审 AI 产品测评、场景测评、横向对比、工具测试类文章。
 - `mondaylab-information-aesthetic-column`：用于撰写、改写和评审「信息美学家」专栏文章，把零散信息整理成好看、好找、好用、可复用的可视化产物。
 - `mondaylab-information-aesthetic-wechat-layout`：用于把「信息美学家」飞书文档或 Markdown 草稿转换成公众号 HTML 排版稿。
+- `mondaylab-weekly-meeting-automation`：用于每周五准备 MondayLab / KiteoLab 业务周会，创建本周周报记录、复制会议模板、更新会议文档和 `06 周会配置`。
 
 ## 已有 Agent
 
@@ -133,6 +134,24 @@ agents/information-aesthetic-weekly-agent
 
 ```text
 agents/information-aesthetic-weekly-agent/USAGE.md
+```
+
+如果是每周固定准备业务周会，需要创建本周周报记录、更新本周视图筛选、复制周会模板、刷新 `06 周会配置`，可以引用：
+
+```text
+mondaylab-weekly-meeting-automation
+```
+
+常用周会准备提示词：
+
+```text
+请使用 mondaylab-weekly-meeting-automation，帮我跑一下本周业务周会准备流程。
+```
+
+这个 Skill 内置脚本位于：
+
+```text
+skills/mondaylab-weekly-meeting-automation/scripts/prepare_weekly_meeting.py
 ```
 
 ## 使用规则

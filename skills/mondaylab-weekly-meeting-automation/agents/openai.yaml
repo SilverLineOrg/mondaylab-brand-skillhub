@@ -1,0 +1,4 @@
+interface:
+  display_name: "MondayLab 周会自动化准备"
+  short_description: "每周五自动准备周报记录、会议文档和 06 周会配置"
+  default_prompt: "使用 $mondaylab-weekly-meeting-automation，帮我准备本周业务周会：创建本周周报记录、更新视图筛选、复制会议模板并刷新 06 周会配置。"
