@@ -1,5 +1,5 @@
 ---
-name: mondaylab-weekly-meeting-automation
+name: weekly-meeting-automation
 description: 当需要为 MondayLab / KiteoLab 的业务周会准备本周周报记录、更新本周视图筛选、复制周会模板、刷新周会配置表，或需要复跑某一周的周会准备流程时使用。适用于“每周五创建空白人力周报”“更新 06 周会配置”“生成本周业务周会文档”“让周六 Base 自动化读取配置并发提醒”等固定流程。
 ---
 
@@ -43,7 +43,7 @@ description: 当需要为 MondayLab / KiteoLab 的业务周会准备本周周报
 脚本位置：
 
 ```bash
-skills/mondaylab-weekly-meeting-automation/scripts/prepare_weekly_meeting.py
+skills/weekly-meeting-automation/scripts/prepare_weekly_meeting.py
 ```
 
 ## 推荐执行方式
@@ -51,25 +51,25 @@ skills/mondaylab-weekly-meeting-automation/scripts/prepare_weekly_meeting.py
 先 dry-run 看本次会操作哪一周：
 
 ```bash
-python3 skills/mondaylab-weekly-meeting-automation/scripts/prepare_weekly_meeting.py --dry-run
+python3 skills/weekly-meeting-automation/scripts/prepare_weekly_meeting.py --dry-run
 ```
 
 确认无误后正式执行：
 
 ```bash
-python3 skills/mondaylab-weekly-meeting-automation/scripts/prepare_weekly_meeting.py
+python3 skills/weekly-meeting-automation/scripts/prepare_weekly_meeting.py
 ```
 
 如果需要复跑指定日期所在周，例如补跑 2026-06-12 这一周：
 
 ```bash
-python3 skills/mondaylab-weekly-meeting-automation/scripts/prepare_weekly_meeting.py --date 2026-06-12
+python3 skills/weekly-meeting-automation/scripts/prepare_weekly_meeting.py --date 2026-06-12
 ```
 
 默认脚本只准备数据、文档和配置，不发送群消息。只有用户明确要求“由 Codex 直接发提醒”时，才加：
 
 ```bash
-python3 skills/mondaylab-weekly-meeting-automation/scripts/prepare_weekly_meeting.py --send-reminder
+python3 skills/weekly-meeting-automation/scripts/prepare_weekly_meeting.py --send-reminder
 ```
 
 ## 主持人轮值

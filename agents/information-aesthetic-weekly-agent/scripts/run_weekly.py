@@ -21,7 +21,7 @@ from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[3]
-LAYOUT_SCRIPT = ROOT / "skills/mondaylab-information-aesthetic-wechat-layout/scripts/render_wechat_html.py"
+LAYOUT_SCRIPT = ROOT / "skills/information-aesthetic-wechat-layout/scripts/render_wechat_html.py"
 DEFAULT_POSTER_SKILL = ROOT.parent / "magazine-visuals/skills/make-it-pop-poster"
 FRAGMENT_RENDERER = Path(__file__).resolve().parent / "render-fragment.mjs"
 GIF_FRAME_RENDERER = Path(__file__).resolve().parent / "render-gif-frames.mjs"

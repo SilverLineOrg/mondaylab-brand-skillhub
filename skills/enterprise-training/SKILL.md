@@ -1,5 +1,5 @@
 ---
-name: mondaylab-enterprise-training
+name: enterprise-training
 description: 当需要设计星期一研究室 / MondayLab 的企业培训、B 端工作坊、AI 工作流诊断、飞书或跨平台管理中枢方案、知识管理培训、项目执行培训、信息美学培训、企业人机协同服务时使用。
 ---
 

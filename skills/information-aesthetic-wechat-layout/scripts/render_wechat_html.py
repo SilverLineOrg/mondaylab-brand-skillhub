@@ -559,7 +559,7 @@ def build_html(title: str, content: str, include_opening: bool = True, include_e
     <button id="copy-wechat-html" type="button" style="appearance:none;border:1px solid #111;background:#111;color:#fff;border-radius:0;padding:9px 18px;font-size:13px;line-height:1;font-weight:800;letter-spacing:0.02em;cursor:pointer;font-family:{FONT_STACK};">复制到公众号</button>
     <span id="copy-wechat-status" style="display:inline-block;margin-left:10px;color:#666;font-size:12px;line-height:1.4;vertical-align:middle;"></span>
   </div>
-  <section id="nice" data-tool="mondaylab-information-aesthetic-wechat-layout" style="max-width:677px;margin:0 auto;padding:28px 0 56px;background:rgba(0,0,0,0);width:auto;font-family:{FONT_STACK};font-size:16px;color:#000;line-height:1.5em;word-spacing:0;letter-spacing:0;word-break:break-word;overflow-wrap:break-word;text-align:left;box-sizing:border-box;">
+  <section id="nice" data-tool="information-aesthetic-wechat-layout" style="max-width:677px;margin:0 auto;padding:28px 0 56px;background:rgba(0,0,0,0);width:auto;font-family:{FONT_STACK};font-size:16px;color:#000;line-height:1.5em;word-spacing:0;letter-spacing:0;word-break:break-word;overflow-wrap:break-word;text-align:left;box-sizing:border-box;">
     {render_motion_styles()}
     {opening}
     {pre_title}

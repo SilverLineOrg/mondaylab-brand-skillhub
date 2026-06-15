@@ -1,5 +1,5 @@
 ---
-name: mondaylab-information-aesthetic-wechat-layout
+name: information-aesthetic-wechat-layout
 description: 当需要把「信息美学家」专栏文章、飞书文档、Markdown 草稿或公众号正文，转换成星期一研究室风格的公众号 HTML 排版稿时使用。适用于用户给出飞书文档链接、docx/wiki token、Markdown 文件或正文，希望生成可预览、可复制到公众号编辑器的 HTML，并复刻信息美学家专栏的二级标题大蓝色编号、三级标题黑底白字步骤条、正文表格、截图和图片排版。
 ---
 
@@ -7,7 +7,7 @@ description: 当需要把「信息美学家」专栏文章、飞书文档、Mark
 
 使用这个 Skill，把「信息美学家」专栏文章转换成公众号 HTML 排版稿。
 
-这个 Skill 只负责排版和 HTML 生成，不负责重写选题方向。文章内容和栏目语气使用 `mondaylab-information-aesthetic-column`。
+这个 Skill 只负责排版和 HTML 生成，不负责重写选题方向。文章内容和栏目语气使用 `information-aesthetic-column`。
 
 ## 输入输出
 
@@ -37,7 +37,7 @@ description: 当需要把「信息美学家」专栏文章、飞书文档、Mark
 4. 运行脚本生成 HTML：
 
 ```bash
-python3 skills/mondaylab-information-aesthetic-wechat-layout/scripts/render_wechat_html.py \
+python3 skills/information-aesthetic-wechat-layout/scripts/render_wechat_html.py \
   --input article.md \
   --output article.html
 ```

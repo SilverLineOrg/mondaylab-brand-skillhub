@@ -1,0 +1,4 @@
+interface:
+  display_name: "信息美学家公众号排版"
+  short_description: "把飞书文档生成公众号 HTML 排版稿"
+  default_prompt: "Use $information-aesthetic-wechat-layout to convert this Feishu document into a WeChat-ready HTML article."

@@ -6,15 +6,15 @@
 
 ## 已有 Skill
 
-- `mondaylab-brand-strategy`：用于校准品牌定位、商业化边界、产品结构、平台策略。
-- `mondaylab-content-direction`：用于公众号、小红书、X 等公域内容的选题规划、文章纠偏、CTA 设计、内容资产沉淀。
-- `mondaylab-enterprise-training`：用于 B 端企业培训、工作坊、诊断咨询、企业产品设计。
+- `brand-strategy`：用于校准品牌定位、商业化边界、产品结构、平台策略。
+- `content-direction`：用于公众号、小红书、X 等公域内容的选题规划、文章纠偏、CTA 设计、内容资产沉淀。
+- `enterprise-training`：用于 B 端企业培训、工作坊、诊断咨询、企业产品设计。
 - `article-heading-structure`：用于统一中文文章、公众号正文、星期一研究室长文的 Markdown 标题层级、编号和视觉节奏。
-- `mondaylab-professional-article-style`：用于统一星期一研究室场景测评、产品测试、专业公众号文章的语言风格、内容组织和写法禁区。
-- `mondaylab-ai-product-reviewer`：用于撰写、改写和评审 AI 产品测评、场景测评、横向对比、工具测试类文章。
-- `mondaylab-information-aesthetic-column`：用于撰写、改写和评审「信息美学家」专栏文章，把零散信息整理成好看、好找、好用、可复用的可视化产物。
-- `mondaylab-information-aesthetic-wechat-layout`：用于把「信息美学家」飞书文档或 Markdown 草稿转换成公众号 HTML 排版稿。
-- `mondaylab-weekly-meeting-automation`：用于每周五准备 MondayLab / KiteoLab 业务周会，创建本周周报记录、复制会议模板、更新会议文档和 `06 周会配置`。
+- `professional-article-style`：用于统一星期一研究室场景测评、产品测试、专业公众号文章的语言风格、内容组织和写法禁区。
+- `ai-product-reviewer`：用于撰写、改写和评审 AI 产品测评、场景测评、横向对比、工具测试类文章。
+- `information-aesthetic-column`：用于撰写、改写和评审「信息美学家」专栏文章，把零散信息整理成好看、好找、好用、可复用的可视化产物。
+- `information-aesthetic-wechat-layout`：用于把「信息美学家」飞书文档或 Markdown 草稿转换成公众号 HTML 排版稿。
+- `weekly-meeting-automation`：用于每周五准备 MondayLab / KiteoLab 业务周会，创建本周周报记录、复制会议模板、更新会议文档和 `06 周会配置`。
 
 ## 已有 Agent
 
@@ -25,7 +25,7 @@
 如果是日常文章选题、公众号 / 小红书 / X 文案、文章结构纠偏，主要引用：
 
 ```text
-mondaylab-content-direction
+content-direction
 ```
 
 它负责判断一篇内容是否符合星期一研究室接下来的内容打法：AI Native、信息美学、最终产物、场景工作流、课程转化、平台无关能力。
@@ -33,19 +33,19 @@ mondaylab-content-direction
 如果文章涉及更底层的品牌定位、商业化边界、飞书是不是主线、C 端 / B 端产品结构，需要同时引用：
 
 ```text
-mondaylab-brand-strategy
+brand-strategy
 ```
 
 如果文章是企业培训、B 端案例、企业工作流、管理中枢相关内容，需要再加：
 
 ```text
-mondaylab-enterprise-training
+enterprise-training
 ```
 
 最常用的文章纠偏提示词：
 
 ```text
-请基于 mondaylab-content-direction 和 mondaylab-brand-strategy，帮我判断这篇文章是否符合星期一研究室的内容方向，并给出改写建议。
+请基于 content-direction 和 brand-strategy，帮我判断这篇文章是否符合星期一研究室的内容方向，并给出改写建议。
 ```
 
 如果已经确定文章方向，只需要整理标题层级、编号和阅读节奏，可以引用：
@@ -63,31 +63,31 @@ article-heading-structure
 如果文章方向已经确定，需要统一“星期一研究室”的专业写作风格，尤其是 AI 产品场景测评、测试中文章、工具实测文章，可以引用：
 
 ```text
-mondaylab-professional-article-style
+professional-article-style
 ```
 
 常用风格润色提示词：
 
 ```text
-请使用 mondaylab-professional-article-style，帮我把这篇文章改成星期一研究室的专业场景测评风格，保留核心观点，但优化语言风格、案例组织、截图提示和价值输出。
+请使用 professional-article-style，帮我把这篇文章改成星期一研究室的专业场景测评风格，保留核心观点，但优化语言风格、案例组织、截图提示和价值输出。
 ```
 
 如果要写 AI 产品深度测评、场景测评、横向对比、工具测试文章，可以引用：
 
 ```text
-mondaylab-ai-product-reviewer
+ai-product-reviewer
 ```
 
 常用测评写作提示词：
 
 ```text
-请使用 mondaylab-ai-product-reviewer，帮我把这个 AI 产品测评选题整理成一篇星期一研究室风格的公众号文章，要求有真实场景、测试过程、截图提示、Prompt 示例、结果判断和 reference。
+请使用 ai-product-reviewer，帮我把这个 AI 产品测评选题整理成一篇星期一研究室风格的公众号文章，要求有真实场景、测试过程、截图提示、Prompt 示例、结果判断和 reference。
 ```
 
 如果要写或优化「信息美学家」专栏文章，可以引用：
 
 ```text
-mondaylab-information-aesthetic-column
+information-aesthetic-column
 ```
 
 它负责判断一篇文章是否符合信息美学家的栏目气质：不是单纯工具教程，也不是 AI 产品测评，而是把素材、知识、项目、任务、灵感等零散信息，整理成一个好看、好找、好用、可复用的可视化产物。
@@ -95,19 +95,19 @@ mondaylab-information-aesthetic-column
 常用专栏优化提示词：
 
 ```text
-请使用 mondaylab-information-aesthetic-column，帮我把这个场景改成「信息美学家」专栏文章，要求有具体问题、最终产物、字段/视图设计、截图建议和轻量 CTA。
+请使用 information-aesthetic-column，帮我把这个场景改成「信息美学家」专栏文章，要求有具体问题、最终产物、字段/视图设计、截图建议和轻量 CTA。
 ```
 
 如果文章已经写好，需要生成「信息美学家」公众号 HTML 排版稿，可以引用：
 
 ```text
-mondaylab-information-aesthetic-wechat-layout
+information-aesthetic-wechat-layout
 ```
 
 常用排版提示词：
 
 ```text
-请使用 mondaylab-information-aesthetic-wechat-layout，把这篇飞书文档转换成公众号 HTML，二级标题用大蓝色编号样式，三级标题用黑底白字步骤条样式。
+请使用 information-aesthetic-wechat-layout，把这篇飞书文档转换成公众号 HTML，二级标题用大蓝色编号样式，三级标题用黑底白字步骤条样式。
 ```
 
 如果是每周固定生产整期「信息美学家 Weekly」，需要同时拉飞书、刷新图片、生成栏头图、生成 HTML 和预览，可以引用：
@@ -139,19 +139,19 @@ agents/information-aesthetic-weekly-agent/USAGE.md
 如果是每周固定准备业务周会，需要创建本周周报记录、更新本周视图筛选、复制周会模板、刷新 `06 周会配置`，可以引用：
 
 ```text
-mondaylab-weekly-meeting-automation
+weekly-meeting-automation
 ```
 
 常用周会准备提示词：
 
 ```text
-请使用 mondaylab-weekly-meeting-automation，帮我跑一下本周业务周会准备流程。
+请使用 weekly-meeting-automation，帮我跑一下本周业务周会准备流程。
 ```
 
 这个 Skill 内置脚本位于：
 
 ```text
-skills/mondaylab-weekly-meeting-automation/scripts/prepare_weekly_meeting.py
+skills/weekly-meeting-automation/scripts/prepare_weekly_meeting.py
 ```
 
 ## 使用规则

@@ -1,4 +1,4 @@
 interface:
   display_name: "MondayLab Professional Article Style"
   short_description: "统一星期一研究室场景测评与测试中文章的专业写作风格"
-  default_prompt: "Use $mondaylab-professional-article-style to write or polish this MondayLab article in the brand's professional scenario-review voice."
+  default_prompt: "Use $professional-article-style to write or polish this MondayLab article in the brand's professional scenario-review voice."

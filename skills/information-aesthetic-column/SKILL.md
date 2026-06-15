@@ -1,5 +1,5 @@
 ---
-name: mondaylab-information-aesthetic-column
+name: information-aesthetic-column
 description: 当需要撰写、改写、评审或优化星期一研究室 / MondayLab 的「信息美学家」专栏文章时使用，尤其适用于把 AI 生成素材、飞书文档、飞书多维表格、知识库、项目管理、内容资产、视觉素材库、画册视图、看板视图、秒哒应用、HTML 页面、Markdown 文档等工具和信息载体，写成轻量、自然、有审美判断、段落衔接顺滑、可操作、可复用的信息可视化案例。
 ---
 
@@ -7,7 +7,7 @@ description: 当需要撰写、改写、评审或优化星期一研究室 / Mond
 
 使用这个 Skill，把「信息美学家」专栏写成一个个轻量、好读、有画面感的信息整理案例。
 
-这个 Skill 负责栏目定位、栏目语气、结构、标题层级和表达边界。信息美学家的语气已经内置在本 Skill 里，不需要额外配合 `mondaylab-professional-article-style`。只有当文章明显变成 AI 产品深测、工具评测或专业场景验证时，才改用 `mondaylab-ai-product-reviewer` 或 `mondaylab-professional-article-style`。
+这个 Skill 负责栏目定位、栏目语气、结构、标题层级和表达边界。信息美学家的语气已经内置在本 Skill 里，不需要额外配合 `professional-article-style`。只有当文章明显变成 AI 产品深测、工具评测或专业场景验证时，才改用 `ai-product-reviewer` 或 `professional-article-style`。
 
 ## 栏目定位
 

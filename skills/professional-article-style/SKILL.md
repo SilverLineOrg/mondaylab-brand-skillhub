@@ -1,5 +1,5 @@
 ---
-name: mondaylab-professional-article-style
+name: professional-article-style
 description: 当需要撰写、改写或评审星期一研究室 / MondayLab 专业文章时使用，尤其适用于 AI 产品场景测评、工具测试文章、公众号草稿、YouMind 风格写作提示词、场景化评测、Prompt 示例、截图说明、reference 列表，以及需要保持星期一研究室温和但专业的中文语气的文章。
 ---
 
@@ -7,7 +7,7 @@ description: 当需要撰写、改写或评审星期一研究室 / MondayLab 专
 
 使用这个 Skill，让星期一研究室的专业文章在语言、结构和读者价值上保持一致。
 
-这个 Skill 负责写作风格。选题方向使用 `mondaylab-content-direction`，Markdown 标题层级使用 `article-heading-structure`。
+这个 Skill 负责写作风格。选题方向使用 `content-direction`，Markdown 标题层级使用 `article-heading-structure`。
 
 ## 语言风格
 
@@ -109,4 +109,4 @@ description: 当需要撰写、改写或评审星期一研究室 / MondayLab 专
 - 先给例子和场景，再上升到抽象结论。
 - 不要写成泛泛的 AI 产品测评号。
 - 不要编造截图、链接或 reference。缺失时明确标记占位。
-- 与 `mondaylab-content-direction` 配合使用时，遵守内容北极星：说明工具如何进入真实工作流，并变成最终产物。
+- 与 `content-direction` 配合使用时，遵守内容北极星：说明工具如何进入真实工作流，并变成最终产物。

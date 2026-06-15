@@ -1,4 +1,4 @@
 interface:
   display_name: "星期一研究室信息美学家专栏"
   short_description: "写作和优化信息美学家专栏文章"
-  default_prompt: "Use $mondaylab-information-aesthetic-column to optimize this 信息美学家专栏文章 for MondayLab style."
+  default_prompt: "Use $information-aesthetic-column to optimize this 信息美学家专栏文章 for MondayLab style."

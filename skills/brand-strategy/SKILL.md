@@ -1,5 +1,5 @@
 ---
-name: mondaylab-brand-strategy
+name: brand-strategy
 description: 当需要判断星期一研究室 / MondayLab 的品牌定位、商业化边界、平台策略、产品策略、AI 工作流定位、跨平台可视化产物，或判断一个新想法是否符合品牌方向时使用。
 ---
 

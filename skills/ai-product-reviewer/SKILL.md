@@ -1,5 +1,5 @@
 ---
-name: mondaylab-ai-product-reviewer
+name: ai-product-reviewer
 description: 当需要撰写、改写或评审星期一研究室 / MondayLab 的 AI 产品测评文章时使用，适用于 AI 产品深度测评、场景测评、横向对比、工具测试、功能体验、Prompt 测试、截图说明、标题优化、reference 整理，以及需要写出专业、有趣、有观点、有论据的公众号测评文章。
 ---
 
@@ -7,7 +7,7 @@ description: 当需要撰写、改写或评审星期一研究室 / MondayLab 的
 
 使用这个 Skill，写出符合星期一研究室风格的 AI 产品测评文章。
 
-它负责 AI 产品测评文章的结构、标题、证据、引用和专业判断。通用文章语气使用 `mondaylab-professional-article-style`，标题层级使用 `article-heading-structure`，选题方向使用 `mondaylab-content-direction`。
+它负责 AI 产品测评文章的结构、标题、证据、引用和专业判断。通用文章语气使用 `professional-article-style`，标题层级使用 `article-heading-structure`，选题方向使用 `content-direction`。
 
 ## 文章格式
 

@@ -1,5 +1,5 @@
 ---
-name: mondaylab-content-direction
+name: content-direction
 description: 当需要规划、评审、改写或纠偏星期一研究室 / MondayLab 的文章选题时使用，适用于公众号、小红书、X、公域分发、AI 产品测评、信息美学、飞书课程转化、AI Native 工作流、vibe coding、跨平台最终产物等内容。
 ---
 
