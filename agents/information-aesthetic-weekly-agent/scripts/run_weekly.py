@@ -65,6 +65,12 @@ def reset_current_output_dir(output_dir: Path) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
 
 
+def remove_temporary_files(paths: list[Path]) -> None:
+    for path in paths:
+        if path.exists():
+            path.unlink()
+
+
 def parse_lark_output(raw: str) -> str:
     raw = raw.strip()
     if not raw:
@@ -1070,17 +1076,15 @@ def main() -> None:
 
     markdown_path.write_text(markdown, encoding="utf-8")
     render_html(markdown_path, html_path)
+    remove_temporary_files([follow_card_html, end_card_html, masthead_html, *[image.with_suffix(".html") for image in section_images]])
 
     checks = [check_image(src, output_dir) for src in collect_image_sources(markdown)]
     print(f"Markdown: {markdown_path}")
     print(f"HTML: {html_path}")
-    print(f"Follow card HTML: {follow_card_html}")
     print(f"Follow card PNG: {follow_card_png}")
     print(f"Follow card GIF: {follow_card_gif}")
-    print(f"End card HTML: {end_card_html}")
     print(f"End card PNG: {end_card_png}")
     if not args.skip_masthead:
-        print(f"Masthead HTML: {masthead_html}")
         print(f"Masthead PNG: {masthead_png}")
     if section_images:
         print("Section PNGs:")
